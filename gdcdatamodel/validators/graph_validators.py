@@ -10,7 +10,7 @@ def clean_count(q):
     Args:
         q (psqlgraph.query.GraphQuery): The current query object.
     """
-    query_count = q.options(sqlalchemy.orm.lazyload('*')).statement.with_only_columns([sqlalchemy.func.count()]).order_by(None)
+    query_count = q.options(sqlalchemy.orm.noload('*')).statement.with_only_columns([sqlalchemy.func.count()]).order_by(None)
     return q.session.execute(query_count).scalar()
 
 class GDCGraphValidator(object):
@@ -121,6 +121,7 @@ class GDCLinksValidator(object):
 class GDCUniqueKeysValidator(object):
 
     def validate(self, entities, graph=None):
+        all_props = []
         for entity in entities:
             schema = gdcdictionary.schema[entity.node.label]
             node = entity.node
@@ -134,9 +135,21 @@ class GDCUniqueKeysValidator(object):
                         props[prop] = node[prop]
                     else:
                         props[key] = node[key]
-                q = graph.nodes().props(props)
-                if clean_count(q) > 1:
-                        entity.record_error(
-                            '{} with {} already exists'
-                            .format(node.label, props), keys=props.keys()
-                        )
+                        
+                all_props.append(props)	
+
+        entity_props = map(psqlgraph.Node._props.contains, all_props)
+        count = clean_count(graph.nodes().filter(sqlalchemy.or_(*entity_props)))	
+        # Check if the number of nodes found is greater than the number of	
+        # entities that should have been entered, which means there is a	
+        # duplicate entity somewhere. Entities must then be checked	
+        # individually, which is slower (hence why the count is checked first	
+        # instead of just running the code below).	
+        if count > len(entity_props):
+            print("doing slow scan")
+            for props in all_props:
+                if clean_count(graph.nodes().props(props)) > 1:
+                    entity.record_error(
+                        '{} with {} already exists in the GDC'
+                        .format(node.label, props), keys=props.keys()
+                    )
