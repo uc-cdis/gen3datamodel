@@ -2,6 +2,16 @@ from dictionaryutils import dictionary as gdcdictionary
 import psqlgraph
 import sqlalchemy
 
+def clean_count(q):
+    """Returns the count from this query without pulling all the columns
+    This gets the count from a query without doing a subquery
+    The subquery would pull all the information from the DB
+    and cause statement timeouts with large numbers of rows.
+    Args:
+        q (psqlgraph.query.GraphQuery): The current query object.
+    """
+    query_count = q.options(sa.orm.lazyload('*')).statement.with_only_columns([sa.func.count()]).order_by(None)
+    return q.session.execute(query_count).scalar()
 
 class GDCGraphValidator(object):
     '''
@@ -124,7 +134,8 @@ class GDCUniqueKeysValidator(object):
                         props[prop] = node[prop]
                     else:
                         props[key] = node[key]
-                if graph.nodes().props(props).count() > 1:
+                q = graph.nodes().props(props)
+                if clean_count(q) > 1:
                         entity.record_error(
                             '{} with {} already exists'
                             .format(node.label, props), keys=props.keys()
