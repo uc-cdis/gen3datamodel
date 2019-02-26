@@ -102,6 +102,9 @@ class TestValidators(unittest.TestCase):
     def update_schema(self, entity, key, schema):
         self.graph_validator.schemas.schema[entity][key] = schema
 
+    def append_schema(self, entity, key, schema):
+        self.graph_validator.schemas.schema[entity][key].update(schema)
+
     def test_graph_validator_without_required_link(self):
         with g.session_scope() as session:
             node = self.create_node({'type': 'aliquot',
@@ -198,6 +201,278 @@ class TestValidators(unittest.TestCase):
                        'target_type': 'sample'}]}])
             self.graph_validator.record_errors(g, self.entities)
             self.assertEquals(['analytes'], self.entities[0].errors[0]['keys'])
+
+    # def test_graph_validator_with_invalid_existing_nested_subgroup(self):
+    #     with g.session_scope() as session:
+    #         case = self.create_node({'type': 'case',
+    #                                  'props': {'submitter_id': 'testc'},
+    #                                  'edges': {}}, session)
+    #         sample = self.create_node({'type': 'sample',
+    #                                    'props': {'submitter_id': 'test',
+    #                                              'sample_type': 'DNA',
+    #                                              'sample_type_id': '01'},
+    #                                    'edges': {}}, session)
+    #         node = self.create_node({'type': 'aliquot',
+    #                                  'props': {'submitter_id': 'test'},
+    #                                  'edges': {'cases': [case.node_id],
+    #                                            'samples': [sample.node_id]}},
+    #                                 session)
+    #         self.entities[0].node = node
+    #         self.append_schema('aliquot', 'properties', {
+    #             'cases': {
+    #                 '$ref': '_definitions.yaml#/to_one'
+    #             },
+    #             'treatments': {
+    #                 '$ref': '_definitions.yaml#/to_one'
+    #             },
+    #             'publications': {
+    #                 '$ref': '_definitions.yaml#/to_one'
+    #             }
+    #         })
+    #         self.update_schema(
+    #             'aliquot',
+    #             'links',
+    #             [{'exclusive': False,
+    #               'required': True,
+    #               'subgroup': [
+    #                 {'name': 'case',
+    #                  'backref': 'aliquots',
+    #                  'label': 'derived_from',
+    #                  'multiplicity': 'many_to_one',
+    #                  'target_type': 'case'},
+    #                 {
+    #                   'exclusive': True,
+    #                   'required': False,
+    #                   'subgroup': [
+    #                     {
+    #                       'exclusive': False,
+    #                       'required': False,
+    #                       'subgroup': [
+    #                         {'name': 'treatments',
+    #                          'backref': 'aliquots',
+    #                          'label': 'derived_from',
+    #                          'multiplicity': 'many_to_one',
+    #                          'target_type': 'treatment',
+    #                          'required': True},
+    #                         {'name': 'samples',
+    #                          'backref': 'aliquots',
+    #                          'label': 'derived_from',
+    #                          'multiplicity': 'many_to_one',
+    #                          'target_type': 'sample',
+    #                          'required': True}
+    #                       ]
+    #                     },
+    #                     {
+    #                       'exclusive': False,
+    #                       'required': False,
+    #                       'subgroup': [
+    #                         {'name': 'analytes',
+    #                          'backref': 'aliquots',
+    #                          'label': 'derived_from',
+    #                          'multiplicity': 'many_to_one',
+    #                          'target_type': 'analyte',
+    #                          'required': True},
+    #                         {'name': 'publications',
+    #                          'backref': 'aliquots',
+    #                          'label': 'derived_from',
+    #                          'multiplicity': 'many_to_one',
+    #                          'target_type': 'publication',
+    #                          'required': True}
+    #                       ]
+    #                     }
+    #                   ]
+    #                 }
+    #             ]}])
+    #         self.graph_validator.record_errors(g, self.entities)
+    #         self.assertEquals(['analytes'], self.entities[0].errors[0]['keys'])
+    #
+    # def test_graph_validator_with_invalid_exclusive_nested_subgroup(self):
+    #     with g.session_scope() as session:
+    #         case = self.create_node({'type': 'case',
+    #                                  'props': {'submitter_id': 'testc'},
+    #                                  'edges': {}}, session)
+    #         analyte = self.create_node({'type': 'analyte',
+    #                                     'props': {'submitter_id': 'test',
+    #                                               'analyte_type_id': 'D',
+    #                                               'analyte_type': 'DNA'},
+    #                                     'edges': {}}, session)
+    #         sample = self.create_node({'type': 'sample',
+    #                                    'props': {'submitter_id': 'test',
+    #                                              'sample_type': 'DNA',
+    #                                              'sample_type_id': '01'},
+    #                                    'edges': {}}, session)
+    #         treatment = self.create_node({'type': 'treatment',
+    #                                       'props': {'submitter_id': 'test',
+    #                                                 'days_to_follow_up': 10},
+    #                                       'edges': {}}, session)
+    #         publication = self.create_node({'type': 'publication',
+    #                                         'props': {'submitter_id': 'test'},
+    #                                         'edges': {}}, session)
+    #
+    #         node = self.create_node({'type': 'aliquot',
+    #                                  'props': {'submitter_id': 'test'},
+    #                                  'edges': {'analytes': [analyte.node_id],
+    #                                            'samples': [sample.node_id],
+    #                                            'treatments': [treatment.node_id],
+    #                                            'publications': [publication.node_id]}},
+    #                                 session)
+    #         self.entities[0].node = node
+    #         self.append_schema('aliquot', 'properties', {
+    #             'cases': {
+    #                 '$ref': '_definitions.yaml#/to_one'
+    #             },
+    #             'treatments': {
+    #                 '$ref': '_definitions.yaml#/to_one'
+    #             },
+    #             'publications': {
+    #                 '$ref': '_definitions.yaml#/to_one'
+    #             }
+    #         })
+    #         self.update_schema(
+    #             'aliquot',
+    #             'links',
+    #             [{'exclusive': False,
+    #               'required': True,
+    #               'subgroup': [
+    #                 {'name': 'case',
+    #                  'backref': 'aliquots',
+    #                  'label': 'derived_from',
+    #                  'multiplicity': 'many_to_one',
+    #                  'target_type': 'case'},
+    #                 {
+    #                   'exclusive': True,
+    #                   'required': False,
+    #                   'subgroup': [
+    #                     {
+    #                       'exclusive': False,
+    #                       'required': False,
+    #                       'subgroup': [
+    #                         {'name': 'treatments',
+    #                          'backref': 'aliquots',
+    #                          'label': 'derived_from',
+    #                          'multiplicity': 'many_to_one',
+    #                          'target_type': 'treatment',
+    #                          'required': True},
+    #                         {'name': 'samples',
+    #                          'backref': 'aliquots',
+    #                          'label': 'derived_from',
+    #                          'multiplicity': 'many_to_one',
+    #                          'target_type': 'sample',
+    #                          'required': True}
+    #                       ]
+    #                     },
+    #                     {
+    #                       'exclusive': False,
+    #                       'required': False,
+    #                       'subgroup': [
+    #                         {'name': 'analytes',
+    #                          'backref': 'aliquots',
+    #                          'label': 'derived_from',
+    #                          'multiplicity': 'many_to_one',
+    #                          'target_type': 'analyte',
+    #                          'required': True},
+    #                         {'name': 'publications',
+    #                          'backref': 'aliquots',
+    #                          'label': 'derived_from',
+    #                          'multiplicity': 'many_to_one',
+    #                          'target_type': 'publication',
+    #                          'required': True}
+    #                       ]
+    #                     }
+    #                   ]
+    #                 }
+    #             ]}])
+    #         self.graph_validator.record_errors(g, self.entities)
+    #         self.assertEquals(['analytes'], self.entities[0].errors[0]['keys'])
+    #
+    # def test_graph_validator_with_valid_nested_subgroup(self):
+    #     with g.session_scope() as session:
+    #         self.append_schema('aliquot', 'properties', {
+    #             'cases': {
+    #                 '$ref': '_definitions.yaml#/to_one'
+    #             },
+    #             'treatments': {
+    #                 '$ref': '_definitions.yaml#/to_one'
+    #             },
+    #             'publications': {
+    #                 '$ref': '_definitions.yaml#/to_one'
+    #             }
+    #         })
+    #         # case = self.create_node({'type': 'case',
+    #         #                          'props': {'submitter_id': 'testc'},
+    #         #                          'edges': {}}, session)
+    #         sample = self.create_node({'type': 'sample',
+    #                                    'props': {'submitter_id': 'test',
+    #                                              'sample_type': 'DNA',
+    #                                              'sample_type_id': '01'},
+    #                                    'edges': {}}, session)
+    #         # treatment = self.create_node({'type': 'treatment',
+    #         #                               'props': {'submitter_id': 'test',
+    #         #                                         'days_to_follow_up': 10},
+    #         #                               'edges': {}}, session)
+    #         node = self.create_node({'type': 'aliquot',
+    #                                  'props': {'submitter_id': 'test'},
+    #                                  'edges': {#'cases': [case.node_id],
+    #                                            #'treatments': [treatment.node_id],
+    #                                            'samples': [sample.node_id]}},
+    #                                 session)
+    #         self.entities[0].node = node
+    #         self.update_schema(
+    #             'aliquot',
+    #             'links',
+    #             [{'exclusive': False,
+    #               'required': True,
+    #               'subgroup': [
+    #                 {'name': 'case',
+    #                  'backref': 'aliquots',
+    #                  'label': 'derived_from',
+    #                  'multiplicity': 'many_to_one',
+    #                  'target_type': 'case'},
+    #                 {
+    #                   'exclusive': True,
+    #                   'required': True,
+    #                   'subgroup': [
+    #                     {
+    #                       'exclusive': False,
+    #                       'required': True,
+    #                       'subgroup': [
+    #                         {'name': 'treatments',
+    #                          'backref': 'aliquots',
+    #                          'label': 'derived_from',
+    #                          'multiplicity': 'many_to_one',
+    #                          'target_type': 'treatment',
+    #                          'required': True},
+    #                         {'name': 'samples',
+    #                          'backref': 'aliquots',
+    #                          'label': 'derived_from',
+    #                          'multiplicity': 'many_to_one',
+    #                          'target_type': 'sample',
+    #                          'required': True}
+    #                       ]
+    #                     },
+    #                     {
+    #                       'exclusive': False,
+    #                       'required': False,
+    #                       'subgroup': [
+    #                         {'name': 'analytes',
+    #                          'backref': 'aliquots',
+    #                          'label': 'derived_from',
+    #                          'multiplicity': 'many_to_one',
+    #                          'target_type': 'analyte',
+    #                          'required': True},
+    #                         {'name': 'publications',
+    #                          'backref': 'aliquots',
+    #                          'label': 'derived_from',
+    #                          'multiplicity': 'many_to_one',
+    #                          'target_type': 'publication',
+    #                          'required': True}
+    #                       ]
+    #                     }
+    #                   ]
+    #                 }
+    #             ]}])
+    #         self.graph_validator.record_errors(g, self.entities)
+    #         self.assertEquals(0, len(self.entities[0].errors))
 
     def test_graph_validator_with_correct_node(self):
         with g.session_scope() as session:
