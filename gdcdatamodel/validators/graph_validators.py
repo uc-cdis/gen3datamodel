@@ -58,7 +58,7 @@ class GDCNamedLinksValidator(object):
         submit_value = 0
         current_pos = 0
         # iterate all the links, turn on corresponding bit and doing exclusive check
-        for leaf in self.exclusive_list:
+        for leaf in self.exclusive_list:  # Complexity of this for loop is O(n)
             targets = entity.node[leaf.name]
             self.validate_multiplicity(entity, leaf, targets)
             if len(targets) > 0:
@@ -69,14 +69,15 @@ class GDCNamedLinksValidator(object):
             current_pos += 1
 
         # doing required check with at-least mask
-        if submit_value & self.required_validator.required_mask == 0:
+        # Complexity of this is O(1)
+        if self.required_validator.required_mask != 0 and submit_value & self.required_validator.required_mask == 0:
             entity.record_error("Entity is missing one of required link(s) to {} or groups of {}"
                                 .format(self.required_validator.list_required_links,
                                         self.required_validator.group_required),
                                 keys=self.required_validator.list_required_links)
 
         # doing existing checks with exact masks
-        for existing in self.existing_list:
+        for existing in self.existing_list:  # Complexity of this check is O(log n)
             if submit_value & existing.code != 0 and submit_value & existing.existing_mask != existing.existing_mask:
                 entity.record_error("Missing one of required link(s) of groups of {}"
                                     .format(existing.existing_links),
@@ -113,6 +114,8 @@ class GDCLinksValidator(object):
         self.validators = {}
 
     def validate(self, entities, graph=None):
+        if len(entities) <= 0:
+            return
         node_label = entities[0].node.label
         if node_label not in self.validators:
             self.validators[node_label] = GDCNamedLinksValidator(node_label)

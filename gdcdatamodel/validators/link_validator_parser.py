@@ -84,7 +84,7 @@ class LinkWithExclusiveMask(object):
         self.exclusive_mask = item.exclusive_mask
         self.exclusive_links = item.exclusive_links
         self.multiplicity = item.schema.get('multiplicity')
-        self.back_ref = item.schema.get('backref')
+        self.backref = item.schema.get('backref')
 
 
 class ExistingMasks(object):
