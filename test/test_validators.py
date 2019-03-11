@@ -202,277 +202,228 @@ class TestValidators(unittest.TestCase):
             self.graph_validator.record_errors(g, self.entities)
             self.assertEquals(['analytes'], self.entities[0].errors[0]['keys'])
 
-    # def test_graph_validator_with_invalid_existing_nested_subgroup(self):
-    #     with g.session_scope() as session:
-    #         case = self.create_node({'type': 'case',
-    #                                  'props': {'submitter_id': 'testc'},
-    #                                  'edges': {}}, session)
-    #         sample = self.create_node({'type': 'sample',
-    #                                    'props': {'submitter_id': 'test',
-    #                                              'sample_type': 'DNA',
-    #                                              'sample_type_id': '01'},
-    #                                    'edges': {}}, session)
-    #         node = self.create_node({'type': 'aliquot',
-    #                                  'props': {'submitter_id': 'test'},
-    #                                  'edges': {'cases': [case.node_id],
-    #                                            'samples': [sample.node_id]}},
-    #                                 session)
-    #         self.entities[0].node = node
-    #         self.append_schema('aliquot', 'properties', {
-    #             'cases': {
-    #                 '$ref': '_definitions.yaml#/to_one'
-    #             },
-    #             'treatments': {
-    #                 '$ref': '_definitions.yaml#/to_one'
-    #             },
-    #             'publications': {
-    #                 '$ref': '_definitions.yaml#/to_one'
-    #             }
-    #         })
-    #         self.update_schema(
-    #             'aliquot',
-    #             'links',
-    #             [{'exclusive': False,
-    #               'required': True,
-    #               'subgroup': [
-    #                 {'name': 'case',
-    #                  'backref': 'aliquots',
-    #                  'label': 'derived_from',
-    #                  'multiplicity': 'many_to_one',
-    #                  'target_type': 'case'},
-    #                 {
-    #                   'exclusive': True,
-    #                   'required': False,
-    #                   'subgroup': [
-    #                     {
-    #                       'exclusive': False,
-    #                       'required': False,
-    #                       'subgroup': [
-    #                         {'name': 'treatments',
-    #                          'backref': 'aliquots',
-    #                          'label': 'derived_from',
-    #                          'multiplicity': 'many_to_one',
-    #                          'target_type': 'treatment',
-    #                          'required': True},
-    #                         {'name': 'samples',
-    #                          'backref': 'aliquots',
-    #                          'label': 'derived_from',
-    #                          'multiplicity': 'many_to_one',
-    #                          'target_type': 'sample',
-    #                          'required': True}
-    #                       ]
-    #                     },
-    #                     {
-    #                       'exclusive': False,
-    #                       'required': False,
-    #                       'subgroup': [
-    #                         {'name': 'analytes',
-    #                          'backref': 'aliquots',
-    #                          'label': 'derived_from',
-    #                          'multiplicity': 'many_to_one',
-    #                          'target_type': 'analyte',
-    #                          'required': True},
-    #                         {'name': 'publications',
-    #                          'backref': 'aliquots',
-    #                          'label': 'derived_from',
-    #                          'multiplicity': 'many_to_one',
-    #                          'target_type': 'publication',
-    #                          'required': True}
-    #                       ]
-    #                     }
-    #                   ]
-    #                 }
-    #             ]}])
-    #         self.graph_validator.record_errors(g, self.entities)
-    #         self.assertEquals(['analytes'], self.entities[0].errors[0]['keys'])
-    #
-    # def test_graph_validator_with_invalid_exclusive_nested_subgroup(self):
-    #     with g.session_scope() as session:
-    #         case = self.create_node({'type': 'case',
-    #                                  'props': {'submitter_id': 'testc'},
-    #                                  'edges': {}}, session)
-    #         analyte = self.create_node({'type': 'analyte',
-    #                                     'props': {'submitter_id': 'test',
-    #                                               'analyte_type_id': 'D',
-    #                                               'analyte_type': 'DNA'},
-    #                                     'edges': {}}, session)
-    #         sample = self.create_node({'type': 'sample',
-    #                                    'props': {'submitter_id': 'test',
-    #                                              'sample_type': 'DNA',
-    #                                              'sample_type_id': '01'},
-    #                                    'edges': {}}, session)
-    #         treatment = self.create_node({'type': 'treatment',
-    #                                       'props': {'submitter_id': 'test',
-    #                                                 'days_to_follow_up': 10},
-    #                                       'edges': {}}, session)
-    #         publication = self.create_node({'type': 'publication',
-    #                                         'props': {'submitter_id': 'test'},
-    #                                         'edges': {}}, session)
-    #
-    #         node = self.create_node({'type': 'aliquot',
-    #                                  'props': {'submitter_id': 'test'},
-    #                                  'edges': {'analytes': [analyte.node_id],
-    #                                            'samples': [sample.node_id],
-    #                                            'treatments': [treatment.node_id],
-    #                                            'publications': [publication.node_id]}},
-    #                                 session)
-    #         self.entities[0].node = node
-    #         self.append_schema('aliquot', 'properties', {
-    #             'cases': {
-    #                 '$ref': '_definitions.yaml#/to_one'
-    #             },
-    #             'treatments': {
-    #                 '$ref': '_definitions.yaml#/to_one'
-    #             },
-    #             'publications': {
-    #                 '$ref': '_definitions.yaml#/to_one'
-    #             }
-    #         })
-    #         self.update_schema(
-    #             'aliquot',
-    #             'links',
-    #             [{'exclusive': False,
-    #               'required': True,
-    #               'subgroup': [
-    #                 {'name': 'case',
-    #                  'backref': 'aliquots',
-    #                  'label': 'derived_from',
-    #                  'multiplicity': 'many_to_one',
-    #                  'target_type': 'case'},
-    #                 {
-    #                   'exclusive': True,
-    #                   'required': False,
-    #                   'subgroup': [
-    #                     {
-    #                       'exclusive': False,
-    #                       'required': False,
-    #                       'subgroup': [
-    #                         {'name': 'treatments',
-    #                          'backref': 'aliquots',
-    #                          'label': 'derived_from',
-    #                          'multiplicity': 'many_to_one',
-    #                          'target_type': 'treatment',
-    #                          'required': True},
-    #                         {'name': 'samples',
-    #                          'backref': 'aliquots',
-    #                          'label': 'derived_from',
-    #                          'multiplicity': 'many_to_one',
-    #                          'target_type': 'sample',
-    #                          'required': True}
-    #                       ]
-    #                     },
-    #                     {
-    #                       'exclusive': False,
-    #                       'required': False,
-    #                       'subgroup': [
-    #                         {'name': 'analytes',
-    #                          'backref': 'aliquots',
-    #                          'label': 'derived_from',
-    #                          'multiplicity': 'many_to_one',
-    #                          'target_type': 'analyte',
-    #                          'required': True},
-    #                         {'name': 'publications',
-    #                          'backref': 'aliquots',
-    #                          'label': 'derived_from',
-    #                          'multiplicity': 'many_to_one',
-    #                          'target_type': 'publication',
-    #                          'required': True}
-    #                       ]
-    #                     }
-    #                   ]
-    #                 }
-    #             ]}])
-    #         self.graph_validator.record_errors(g, self.entities)
-    #         self.assertEquals(['analytes'], self.entities[0].errors[0]['keys'])
-    #
-    # def test_graph_validator_with_valid_nested_subgroup(self):
-    #     with g.session_scope() as session:
-    #         self.append_schema('aliquot', 'properties', {
-    #             'cases': {
-    #                 '$ref': '_definitions.yaml#/to_one'
-    #             },
-    #             'treatments': {
-    #                 '$ref': '_definitions.yaml#/to_one'
-    #             },
-    #             'publications': {
-    #                 '$ref': '_definitions.yaml#/to_one'
-    #             }
-    #         })
-    #         # case = self.create_node({'type': 'case',
-    #         #                          'props': {'submitter_id': 'testc'},
-    #         #                          'edges': {}}, session)
-    #         sample = self.create_node({'type': 'sample',
-    #                                    'props': {'submitter_id': 'test',
-    #                                              'sample_type': 'DNA',
-    #                                              'sample_type_id': '01'},
-    #                                    'edges': {}}, session)
-    #         # treatment = self.create_node({'type': 'treatment',
-    #         #                               'props': {'submitter_id': 'test',
-    #         #                                         'days_to_follow_up': 10},
-    #         #                               'edges': {}}, session)
-    #         node = self.create_node({'type': 'aliquot',
-    #                                  'props': {'submitter_id': 'test'},
-    #                                  'edges': {#'cases': [case.node_id],
-    #                                            #'treatments': [treatment.node_id],
-    #                                            'samples': [sample.node_id]}},
-    #                                 session)
-    #         self.entities[0].node = node
-    #         self.update_schema(
-    #             'aliquot',
-    #             'links',
-    #             [{'exclusive': False,
-    #               'required': True,
-    #               'subgroup': [
-    #                 {'name': 'case',
-    #                  'backref': 'aliquots',
-    #                  'label': 'derived_from',
-    #                  'multiplicity': 'many_to_one',
-    #                  'target_type': 'case'},
-    #                 {
-    #                   'exclusive': True,
-    #                   'required': True,
-    #                   'subgroup': [
-    #                     {
-    #                       'exclusive': False,
-    #                       'required': True,
-    #                       'subgroup': [
-    #                         {'name': 'treatments',
-    #                          'backref': 'aliquots',
-    #                          'label': 'derived_from',
-    #                          'multiplicity': 'many_to_one',
-    #                          'target_type': 'treatment',
-    #                          'required': True},
-    #                         {'name': 'samples',
-    #                          'backref': 'aliquots',
-    #                          'label': 'derived_from',
-    #                          'multiplicity': 'many_to_one',
-    #                          'target_type': 'sample',
-    #                          'required': True}
-    #                       ]
-    #                     },
-    #                     {
-    #                       'exclusive': False,
-    #                       'required': False,
-    #                       'subgroup': [
-    #                         {'name': 'analytes',
-    #                          'backref': 'aliquots',
-    #                          'label': 'derived_from',
-    #                          'multiplicity': 'many_to_one',
-    #                          'target_type': 'analyte',
-    #                          'required': True},
-    #                         {'name': 'publications',
-    #                          'backref': 'aliquots',
-    #                          'label': 'derived_from',
-    #                          'multiplicity': 'many_to_one',
-    #                          'target_type': 'publication',
-    #                          'required': True}
-    #                       ]
-    #                     }
-    #                   ]
-    #                 }
-    #             ]}])
-    #         self.graph_validator.record_errors(g, self.entities)
-    #         self.assertEquals(0, len(self.entities[0].errors))
+    def test_graph_validator_with_invalid_existing_nested_subgroup(self):
+        with g.session_scope() as session:
+            submitted_unaligned_reads = self.create_node({'type': 'submitted_unaligned_reads',
+                                                          'props': {'submitter_id': 'test',
+                                                                    'file_name': 'test_file1',
+                                                                    'data_format': 'BAM',
+                                                                    'data_category': 'Sequencing Data',
+                                                                    'data_type': 'Unaligned Reads'},
+                                                          'edges': {}}, session)
+            alignment_workflow = self.create_node({'type': 'alignment_workflow',
+                                                   'props': {'submitter_id': 'test',
+                                                             'workflow_link': 'alignment_workflow',
+                                                             'workflow_type': 'STAR 2-Pass'},
+                                                   'edges': {}}, session)
+
+            node = self.create_node({'type': 'aligned_reads',
+                                     'props': {'submitter_id': 'test'},
+                                     'edges': {'submitted_unaligned_reads_files': [submitted_unaligned_reads.node_id],
+                                               'alignment_workflows': [alignment_workflow.node_id]}},
+                                    session)
+            self.entities[0].node = node
+            self.update_schema(
+                'aligned_reads',
+                'links',
+                [{'exclusive': False,
+                  'required': True,
+                  'subgroup': [
+                    {'name': 'submitted_unaligned_reads_files',
+                     'backref': 'aligned_reads_files',
+                     'label': 'matched_to',
+                     'multiplicity': 'one_to_many',
+                     'target_type': 'submitted_unaligned_reads'},
+                    {
+                      'exclusive': True,
+                      'required': False,
+                      'subgroup': [
+                        {'name': 'submitted_aligned_reads_files',
+                         'backref': 'aligned_reads',
+                         'label': 'matched_to',
+                         'multiplicity': 'one_to_one',
+                         'target_type': 'submitted_aligned_reads',
+                         'required': False},
+                        {
+                          'exclusive': False,
+                          'required': False,
+                          'subgroup': [
+                            {'name': 'alignment_cocleaning_workflows',
+                             'backref': 'aligned_reads_files',
+                             'label': 'data_from',
+                             'multiplicity': 'many_to_one',
+                             'target_type': 'alignment_cocleaning_workflow',
+                             'required': True},
+                            {'name': 'alignment_workflows',
+                             'backref': 'aligned_reads_files',
+                             'label': 'data_from',
+                             'multiplicity': 'many_to_one',
+                             'target_type': 'alignment_workflow',
+                             'required': True}
+                          ]
+                        }
+                      ]
+                    }
+                  ]}
+                 ])
+            self.graph_validator.record_errors(g, self.entities)
+            self.assertEquals(['alignment_cocleaning_workflows', 'alignment_workflows'], self.entities[0].errors[0]['keys'])
+
+    def test_graph_validator_with_invalid_exclusive_nested_subgroup(self):
+        with g.session_scope() as session:
+            # submitted_aligned_reads = self.create_node({'type': 'submitted_aligned_reads',
+            #                                               'props': {'submitter_id': 'test',
+            #                                                         'file_name': 'test_file1',
+            #                                                         'data_format': 'BAM',
+            #                                                         'data_category': 'Sequencing Data',
+            #                                                         'data_type': 'Aligned Reads'},
+            #                                               'edges': {}}, session)
+            submitted_unaligned_reads = self.create_node({'type': 'submitted_unaligned_reads',
+                                                          'props': {'submitter_id': 'test',
+                                                                    'file_name': 'test_file1',
+                                                                    'data_format': 'BAM',
+                                                                    'data_category': 'Sequencing Data',
+                                                                    'data_type': 'Unaligned Reads'},
+                                                          'edges': {}}, session)
+            alignment_cocleaning_workflow = self.create_node({'type': 'alignment_cocleaning_workflow',
+                                                              'props': {'submitter_id': 'test',
+                                                                        'workflow_link': 'work link 1',
+                                                                        'workflow_type': 'BWA with Mark Duplicates and Cocleaning'},
+                                                              'edges': {}}, session)
+            alignment_workflow = self.create_node({'type': 'alignment_workflow',
+                                                   'props': {'submitter_id': 'test',
+                                                             'workflow_link': 'alignment_workflow',
+                                                             'workflow_type': 'STAR 2-Pass'},
+                                                   'edges': {}}, session)
+
+            node = self.create_node({'type': 'aligned_reads',
+                                     'props': {'submitter_id': 'test'},
+                                     'edges': {#'submitted_aligned_reads_files': [submitted_aligned_reads.node_id],
+                                               'submitted_unaligned_reads_files': [submitted_unaligned_reads.node_id],
+                                               'alignment_cocleaning_workflows': [alignment_cocleaning_workflow.node_id],
+                                               'alignment_workflows': [alignment_workflow.node_id]}},
+                                    session)
+            self.entities[0].node = node
+            self.update_schema(
+                'aligned_reads',
+                'links',
+                [{'exclusive': False,
+                  'required': True,
+                  'subgroup': [
+                    {'name': 'submitted_aligned_reads_files',
+                     'backref': 'aligned_reads',
+                     'label': 'matched_to',
+                     'multiplicity': 'one_to_one',
+                     'target_type': 'submitted_aligned_reads'},
+                    {
+                      'exclusive': True,
+                      'required': False,
+                      'subgroup': [
+                        {'name': 'submitted_unaligned_reads_files',
+                         'backref': 'aligned_reads_files',
+                         'label': 'matched_to',
+                         'multiplicity': 'one_to_many',
+                         'target_type': 'submitted_unaligned_reads',
+                         'required': False},
+                        {
+                          'exclusive': False,
+                          'required': False,
+                          'subgroup': [
+                            {'name': 'alignment_cocleaning_workflows',
+                             'backref': 'aligned_reads_files',
+                             'label': 'data_from',
+                             'multiplicity': 'many_to_one',
+                             'target_type': 'alignment_cocleaning_workflow',
+                             'required': True},
+                            {'name': 'alignment_workflows',
+                             'backref': 'aligned_reads_files',
+                             'label': 'data_from',
+                             'multiplicity': 'many_to_one',
+                             'target_type': 'alignment_workflow',
+                             'required': True}
+                          ]
+                        }
+                      ]
+                    }
+                  ]}
+                 ])
+            self.graph_validator.record_errors(g, self.entities)
+            self.assertEquals(['submitted_unaligned_reads_files', 'alignment_cocleaning_workflows', 'alignment_workflows'],
+                              self.entities[0].errors[0]['keys'])
+
+    def test_graph_validator_with_valid_nested_subgroup(self):
+        with g.session_scope() as session:
+            submitted_unaligned_reads = self.create_node({'type': 'submitted_unaligned_reads',
+                                                          'props': {'submitter_id': 'test',
+                                                                    'file_name': 'test_file1',
+                                                                    'data_format': 'BAM',
+                                                                    'data_category': 'Sequencing Data',
+                                                                    'data_type': 'Unaligned Reads'},
+                                                          'edges': {}}, session)
+            alignment_cocleaning_workflow = self.create_node({'type': 'alignment_cocleaning_workflow',
+                                                              'props': {'submitter_id': 'test',
+                                                                        'workflow_link': 'work link 1',
+                                                                        'workflow_type': 'BWA with Mark Duplicates and Cocleaning'},
+                                                              'edges': {}}, session)
+            alignment_workflow = self.create_node({'type': 'alignment_workflow',
+                                                   'props': {'submitter_id': 'test',
+                                                             'workflow_link': 'alignment_workflow',
+                                                             'workflow_type': 'STAR 2-Pass'},
+                                                   'edges': {}}, session)
+
+            node = self.create_node({'type': 'aligned_reads',
+                                     'props': {'submitter_id': 'test'},
+                                     'edges': {'submitted_unaligned_reads_files': [submitted_unaligned_reads.node_id],
+                                               'alignment_cocleaning_workflows': [
+                                                   alignment_cocleaning_workflow.node_id],
+                                               'alignment_workflows': [alignment_workflow.node_id]}},
+                                    session)
+            self.entities[0].node = node
+            self.update_schema(
+                'aligned_reads',
+                'links',
+                [{'exclusive': False,
+                  'required': True,
+                  'subgroup': [
+                    {'name': 'submitted_unaligned_reads_files',
+                     'backref': 'aligned_reads_files',
+                     'label': 'matched_to',
+                     'multiplicity': 'one_to_many',
+                     'target_type': 'submitted_unaligned_reads'},
+                    {
+                      'exclusive': True,
+                      'required': False,
+                      'subgroup': [
+                        {'name': 'submitted_aligned_reads_files',
+                         'backref': 'aligned_reads',
+                         'label': 'matched_to',
+                         'multiplicity': 'one_to_one',
+                         'target_type': 'submitted_aligned_reads',
+                         'required': False},
+                        {
+                          'exclusive': False,
+                          'required': False,
+                          'subgroup': [
+                            {'name': 'alignment_cocleaning_workflows',
+                             'backref': 'aligned_reads_files',
+                             'label': 'data_from',
+                             'multiplicity': 'many_to_one',
+                             'target_type': 'alignment_cocleaning_workflow',
+                             'required': True},
+                            {'name': 'alignment_workflows',
+                             'backref': 'aligned_reads_files',
+                             'label': 'data_from',
+                             'multiplicity': 'many_to_one',
+                             'target_type': 'alignment_workflow',
+                             'required': True}
+                          ]
+                        }
+                      ]
+                    }
+                  ]}
+                 ])
+            self.graph_validator.record_errors(g, self.entities)
+            self.assertEquals(0, len(self.entities[0].errors))
 
     def test_graph_validator_with_correct_node(self):
         with g.session_scope() as session:

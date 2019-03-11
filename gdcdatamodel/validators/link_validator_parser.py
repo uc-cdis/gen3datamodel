@@ -149,7 +149,7 @@ def create_exclusive_list(leaves):
     if len(leaves) == 0:
         return []
 
-    current = leaves[len(leaves) - 1]
+    current = leaves[-1]
     leaves_checks = deque([LinkWithExclusiveMask(current)])
     i = len(leaves) - 2
     while i >= 0:
@@ -164,12 +164,11 @@ def create_exclusive_list(leaves):
 
 
 def create_existing_list(link_items, base_mask):
-    existing_masks = []
-    for item in link_items:
-        if item.existing_mask is not None:
-            existing_masks.append(ExistingMasks(item.code, item.existing_mask | base_mask,
-                                                item.existing_links))
-    return existing_masks
+    return [
+        ExistingMasks(item.code, item.existing_mask | base_mask, item.existing_links)
+        for item in link_items
+        if item.existing_mask is not None
+    ]
 
 
 def create_required_mask(final_required):

@@ -59,9 +59,8 @@ class GDCNamedLinksValidator(object):
         current_pos = 0
         # iterate all the links, turn on corresponding bit and doing exclusive check
         for leaf in self.exclusive_list:  # Complexity of this for loop is O(n)
-            targets = entity.node[leaf.name]
-            self.validate_multiplicity(entity, leaf, targets)
-            if len(targets) > 0:
+            self.validate_multiplicity(entity, leaf, entity.node[leaf.name])
+            if len(entity.node[leaf.name]) > 0:
                 if submit_value & leaf.exclusive_mask != 0:
                     entity.record_error("Links to {} are exclusive.  More than one was provided."
                                         .format(leaf.exclusive_links), keys=leaf.exclusive_links)
@@ -114,13 +113,16 @@ class GDCLinksValidator(object):
         self.validators = {}
 
     def validate(self, entities, graph=None):
-        if len(entities) <= 0:
-            return
-        node_label = entities[0].node.label
-        if node_label not in self.validators:
-            self.validators[node_label] = GDCNamedLinksValidator(node_label)
+        pre_node_label = ''
+        validator = None
         for entity in entities:
-            self.validators[node_label].validate(entity)
+            node_label = entity.node.label
+            if pre_node_label != node_label:
+                if node_label not in self.validators:
+                    self.validators[node_label] = GDCNamedLinksValidator(node_label)
+                validator = self.validators[node_label]
+                pre_node_label = node_label
+            validator.validate(entity)
 
     def get_validator(self, node_label):
         if node_label not in self.validators:
