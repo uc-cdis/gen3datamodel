@@ -163,6 +163,7 @@ class TransactionLog(Base):
     canonical_json = deferred(Column(
         JSONB,
         nullable=False,
+        default=JSONB.NULL,
     ))
 
 
