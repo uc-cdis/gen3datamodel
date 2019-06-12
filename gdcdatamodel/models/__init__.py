@@ -59,6 +59,8 @@ CACHE_CASES = (
         or not dictionary.settings)
     else dictionary.settings.get('enable_case_cache', True)
 )
+if CACHE_CASES:
+    logger.info('Caching related cases is deprecated')
 
 # These are properties that are defined outside of the JSONB column in
 # the database, inform later code to skip these
@@ -335,9 +337,6 @@ def NodeFactory(_id, schema):
     # _pg_edges are all edges, links to AND from other types
     attributes['_pg_edges'] = {}
 
-    if CACHE_CASES:
-        logger.info('Caching related cases is deprecated')
-
     # Create the Node subclass!
     cls = type(name, (Node,), dict(
         __tablename__=get_class_tablename_from_id(_id),
@@ -454,9 +453,6 @@ def EdgeFactory(name, label, src_label, dst_label, src_dst_assoc,
     hooks_before_update = Edge._session_hooks_before_update
 
     hooks_before_delete = Edge._session_hooks_before_delete
-
-    if CACHE_CASES:
-        logger.info('Caching related cases is deprecated')
 
     cls = type(name, (Edge,), {
         '__label__': label,
