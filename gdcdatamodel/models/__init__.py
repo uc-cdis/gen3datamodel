@@ -44,17 +44,6 @@ from sqlalchemy.ext.hybrid import (
     hybrid_property,
 )
 
-from .caching import (
-    NOT_RELATED_CASES_CATEGORIES,
-    RELATED_CASES_LINK_NAME,
-    CACHE_CASES,
-    cache_related_cases_on_update,
-    cache_related_cases_on_insert,
-    cache_related_cases_on_delete,
-    related_cases_from_cache,
-    related_cases_from_parents,
-)
-
 from .indexes import (
     cls_add_indexes,
     get_secondary_key_indexes,
@@ -62,6 +51,14 @@ from .indexes import (
 
 
 logger = get_logger('gdcdatamodel')
+
+# Deprecated; used only for logging a deprecation notice
+CACHE_CASES = (
+    True if (
+        not hasattr(dictionary, 'settings')
+        or not dictionary.settings)
+    else dictionary.settings.get('enable_case_cache', True)
+)
 
 # These are properties that are defined outside of the JSONB column in
 # the database, inform later code to skip these
