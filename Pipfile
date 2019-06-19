@@ -7,12 +7,12 @@ verify_ssl = true
 graphviz = "~=0.4"
 jupyter = "~=1.0"
 pytest = "*"
-gdcdictionary = {ref = "1.2.0",git = "https://github.com/NCI-GDC/gdcdictionary.git",editable = true}
+gdcdictionary = {editable = true,git = "https://github.com/NCI-GDC/gdcdictionary.git",ref = "1.2.0"}
 
 [packages]
 gen3datamodel = {path = ".",editable = true}
-sqlalchemy = "==1.3.3"
-psqlgraph = {ref = "2.0.0",git = "https://git@github.com/uc-cdis/psqlgraph.git",editable = true}
+sqlalchemy = "==1.3.4"
+psqlgraph = {editable = true,git = "https://git@github.com/uc-cdis/psqlgraph.git",ref = "2.0.0"}
 
 [requires]
 python_version = "2.7"
