@@ -102,6 +102,9 @@ class TestValidators(unittest.TestCase):
     def update_schema(self, entity, key, schema):
         self.graph_validator.schemas.schema[entity][key] = schema
 
+    def append_schema(self, entity, key, schema):
+        self.graph_validator.schemas.schema[entity][key].update(schema)
+
     def test_graph_validator_without_required_link(self):
         with g.session_scope() as session:
             node = self.create_node({'type': 'aliquot',
@@ -198,6 +201,229 @@ class TestValidators(unittest.TestCase):
                        'target_type': 'sample'}]}])
             self.graph_validator.record_errors(g, self.entities)
             self.assertEquals(['analytes'], self.entities[0].errors[0]['keys'])
+
+    def test_graph_validator_with_invalid_existing_nested_subgroup(self):
+        with g.session_scope() as session:
+            submitted_unaligned_reads = self.create_node({'type': 'submitted_unaligned_reads',
+                                                          'props': {'submitter_id': 'test',
+                                                                    'file_name': 'test_file1',
+                                                                    'data_format': 'BAM',
+                                                                    'data_category': 'Sequencing Data',
+                                                                    'data_type': 'Unaligned Reads'},
+                                                          'edges': {}}, session)
+            alignment_workflow = self.create_node({'type': 'alignment_workflow',
+                                                   'props': {'submitter_id': 'test',
+                                                             'workflow_link': 'alignment_workflow',
+                                                             'workflow_type': 'STAR 2-Pass'},
+                                                   'edges': {}}, session)
+
+            node = self.create_node({'type': 'aligned_reads',
+                                     'props': {'submitter_id': 'test'},
+                                     'edges': {'submitted_unaligned_reads_files': [submitted_unaligned_reads.node_id],
+                                               'alignment_workflows': [alignment_workflow.node_id]}},
+                                    session)
+            self.entities[0].node = node
+            self.update_schema(
+                'aligned_reads',
+                'links',
+                [{'exclusive': False,
+                  'required': True,
+                  'subgroup': [
+                    {'name': 'submitted_unaligned_reads_files',
+                     'backref': 'aligned_reads_files',
+                     'label': 'matched_to',
+                     'multiplicity': 'one_to_many',
+                     'target_type': 'submitted_unaligned_reads'},
+                    {
+                      'exclusive': True,
+                      'required': False,
+                      'subgroup': [
+                        {'name': 'submitted_aligned_reads_files',
+                         'backref': 'aligned_reads',
+                         'label': 'matched_to',
+                         'multiplicity': 'one_to_one',
+                         'target_type': 'submitted_aligned_reads',
+                         'required': False},
+                        {
+                          'exclusive': False,
+                          'required': False,
+                          'subgroup': [
+                            {'name': 'alignment_cocleaning_workflows',
+                             'backref': 'aligned_reads_files',
+                             'label': 'data_from',
+                             'multiplicity': 'many_to_one',
+                             'target_type': 'alignment_cocleaning_workflow',
+                             'required': True},
+                            {'name': 'alignment_workflows',
+                             'backref': 'aligned_reads_files',
+                             'label': 'data_from',
+                             'multiplicity': 'many_to_one',
+                             'target_type': 'alignment_workflow',
+                             'required': True}
+                          ]
+                        }
+                      ]
+                    }
+                  ]}
+                 ])
+            self.graph_validator.record_errors(g, self.entities)
+            self.assertEquals(['alignment_cocleaning_workflows', 'alignment_workflows'], self.entities[0].errors[0]['keys'])
+
+    def test_graph_validator_with_invalid_exclusive_nested_subgroup(self):
+        with g.session_scope() as session:
+            # submitted_aligned_reads = self.create_node({'type': 'submitted_aligned_reads',
+            #                                               'props': {'submitter_id': 'test',
+            #                                                         'file_name': 'test_file1',
+            #                                                         'data_format': 'BAM',
+            #                                                         'data_category': 'Sequencing Data',
+            #                                                         'data_type': 'Aligned Reads'},
+            #                                               'edges': {}}, session)
+            submitted_unaligned_reads = self.create_node({'type': 'submitted_unaligned_reads',
+                                                          'props': {'submitter_id': 'test',
+                                                                    'file_name': 'test_file1',
+                                                                    'data_format': 'BAM',
+                                                                    'data_category': 'Sequencing Data',
+                                                                    'data_type': 'Unaligned Reads'},
+                                                          'edges': {}}, session)
+            alignment_cocleaning_workflow = self.create_node({'type': 'alignment_cocleaning_workflow',
+                                                              'props': {'submitter_id': 'test',
+                                                                        'workflow_link': 'work link 1',
+                                                                        'workflow_type': 'BWA with Mark Duplicates and Cocleaning'},
+                                                              'edges': {}}, session)
+            alignment_workflow = self.create_node({'type': 'alignment_workflow',
+                                                   'props': {'submitter_id': 'test',
+                                                             'workflow_link': 'alignment_workflow',
+                                                             'workflow_type': 'STAR 2-Pass'},
+                                                   'edges': {}}, session)
+
+            node = self.create_node({'type': 'aligned_reads',
+                                     'props': {'submitter_id': 'test'},
+                                     'edges': {#'submitted_aligned_reads_files': [submitted_aligned_reads.node_id],
+                                               'submitted_unaligned_reads_files': [submitted_unaligned_reads.node_id],
+                                               'alignment_cocleaning_workflows': [alignment_cocleaning_workflow.node_id],
+                                               'alignment_workflows': [alignment_workflow.node_id]}},
+                                    session)
+            self.entities[0].node = node
+            self.update_schema(
+                'aligned_reads',
+                'links',
+                [{'exclusive': False,
+                  'required': True,
+                  'subgroup': [
+                    {'name': 'submitted_aligned_reads_files',
+                     'backref': 'aligned_reads',
+                     'label': 'matched_to',
+                     'multiplicity': 'one_to_one',
+                     'target_type': 'submitted_aligned_reads'},
+                    {
+                      'exclusive': True,
+                      'required': False,
+                      'subgroup': [
+                        {'name': 'submitted_unaligned_reads_files',
+                         'backref': 'aligned_reads_files',
+                         'label': 'matched_to',
+                         'multiplicity': 'one_to_many',
+                         'target_type': 'submitted_unaligned_reads',
+                         'required': False},
+                        {
+                          'exclusive': False,
+                          'required': False,
+                          'subgroup': [
+                            {'name': 'alignment_cocleaning_workflows',
+                             'backref': 'aligned_reads_files',
+                             'label': 'data_from',
+                             'multiplicity': 'many_to_one',
+                             'target_type': 'alignment_cocleaning_workflow',
+                             'required': True},
+                            {'name': 'alignment_workflows',
+                             'backref': 'aligned_reads_files',
+                             'label': 'data_from',
+                             'multiplicity': 'many_to_one',
+                             'target_type': 'alignment_workflow',
+                             'required': True}
+                          ]
+                        }
+                      ]
+                    }
+                  ]}
+                 ])
+            self.graph_validator.record_errors(g, self.entities)
+            self.assertEquals(['submitted_unaligned_reads_files', 'alignment_cocleaning_workflows', 'alignment_workflows'],
+                              self.entities[0].errors[0]['keys'])
+
+    def test_graph_validator_with_valid_nested_subgroup(self):
+        with g.session_scope() as session:
+            submitted_unaligned_reads = self.create_node({'type': 'submitted_unaligned_reads',
+                                                          'props': {'submitter_id': 'test',
+                                                                    'file_name': 'test_file1',
+                                                                    'data_format': 'BAM',
+                                                                    'data_category': 'Sequencing Data',
+                                                                    'data_type': 'Unaligned Reads'},
+                                                          'edges': {}}, session)
+            alignment_cocleaning_workflow = self.create_node({'type': 'alignment_cocleaning_workflow',
+                                                              'props': {'submitter_id': 'test',
+                                                                        'workflow_link': 'work link 1',
+                                                                        'workflow_type': 'BWA with Mark Duplicates and Cocleaning'},
+                                                              'edges': {}}, session)
+            alignment_workflow = self.create_node({'type': 'alignment_workflow',
+                                                   'props': {'submitter_id': 'test',
+                                                             'workflow_link': 'alignment_workflow',
+                                                             'workflow_type': 'STAR 2-Pass'},
+                                                   'edges': {}}, session)
+
+            node = self.create_node({'type': 'aligned_reads',
+                                     'props': {'submitter_id': 'test'},
+                                     'edges': {'submitted_unaligned_reads_files': [submitted_unaligned_reads.node_id],
+                                               'alignment_cocleaning_workflows': [
+                                                   alignment_cocleaning_workflow.node_id],
+                                               'alignment_workflows': [alignment_workflow.node_id]}},
+                                    session)
+            self.entities[0].node = node
+            self.update_schema(
+                'aligned_reads',
+                'links',
+                [{'exclusive': False,
+                  'required': True,
+                  'subgroup': [
+                    {'name': 'submitted_unaligned_reads_files',
+                     'backref': 'aligned_reads_files',
+                     'label': 'matched_to',
+                     'multiplicity': 'one_to_many',
+                     'target_type': 'submitted_unaligned_reads'},
+                    {
+                      'exclusive': True,
+                      'required': False,
+                      'subgroup': [
+                        {'name': 'submitted_aligned_reads_files',
+                         'backref': 'aligned_reads',
+                         'label': 'matched_to',
+                         'multiplicity': 'one_to_one',
+                         'target_type': 'submitted_aligned_reads',
+                         'required': False},
+                        {
+                          'exclusive': False,
+                          'required': False,
+                          'subgroup': [
+                            {'name': 'alignment_cocleaning_workflows',
+                             'backref': 'aligned_reads_files',
+                             'label': 'data_from',
+                             'multiplicity': 'many_to_one',
+                             'target_type': 'alignment_cocleaning_workflow',
+                             'required': True},
+                            {'name': 'alignment_workflows',
+                             'backref': 'aligned_reads_files',
+                             'label': 'data_from',
+                             'multiplicity': 'many_to_one',
+                             'target_type': 'alignment_workflow',
+                             'required': True}
+                          ]
+                        }
+                      ]
+                    }
+                  ]}
+                 ])
+            self.graph_validator.record_errors(g, self.entities)
+            self.assertEquals(0, len(self.entities[0].errors))
 
     def test_graph_validator_with_correct_node(self):
         with g.session_scope() as session:
