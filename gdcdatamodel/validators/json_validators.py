@@ -61,26 +61,82 @@ class GDCJSONValidator(object):
 
     def allow_nulls(self, json_doc):
         for key, value in json_doc.items():
-                if value == "null":
-                    json_doc[key] = None
-                if value == "null" or value == None:
-                    # dynamically allow "null" type for fields that are not required
-                    if self.schemas.schema[json_doc['type']]["required"]:
-                        if key not in self.schemas.schema[json_doc['type']]["required"] and key != 'id' and key != 'type':
-                            try:
-                                if "null" not in self.schemas.schema[json_doc['type']][key]['type']:
-                                    if type(self.schemas.schema[json_doc['type']][key]['type']) != list:
-                                        self.schemas.schema[json_doc['type']][key]['type'] = list(self.schemas.schema[json_doc['type']][key]['type'])
-                                    self.schemas.schema[json_doc['type']][key]['type'] += ["null"]
-                            except:
-                                if "null" not in self.schemas.schema[json_doc['type']]['properties'][key]['type']:
-                                    if type(self.schemas.schema[json_doc['type']]['properties'][key]['type']) != list:
-                                        self.schemas.schema[json_doc['type']]['properties'][key]['type'] = [self.schemas.schema[json_doc['type']]['properties'][key]['type']]
-                                    self.schemas.schema[json_doc['type']]['properties'][key]['type'] += ["null"]
-                    else:
+            if value == "null":
+                json_doc[key] = None
+            if value == "null" or value == None:
+                # dynamically allow "null" type for fields that are not required
+                if self.schemas.schema[json_doc["type"]]["required"]:
+                    if (
+                        key not in self.schemas.schema[json_doc["type"]]["required"]
+                        and key != "id"
+                        and key != "type"
+                    ):
                         try:
-                            if "null" not in self.schemas.schema[json_doc['type']][key]['type']:
-                                self.schemas.schema[json_doc['type']][key]['type'] += ["null"]
+                            if (
+                                "null"
+                                not in self.schemas.schema[json_doc["type"]][key][
+                                    "type"
+                                ]
+                            ):
+                                if (
+                                    type(
+                                        self.schemas.schema[json_doc["type"]][key][
+                                            "type"
+                                        ]
+                                    )
+                                    != list
+                                ):
+                                    self.schemas.schema[json_doc["type"]][key][
+                                        "type"
+                                    ] = list(
+                                        self.schemas.schema[json_doc["type"]][key][
+                                            "type"
+                                        ]
+                                    )
+                                self.schemas.schema[json_doc["type"]][key]["type"] += [
+                                    "null"
+                                ]
                         except:
-                            if "null" not in self.schemas.schema[json_doc['type']]['properties'][key]['type']:
-                                self.schemas.schema[json_doc['type']]['properties'][key]['type'] += ["null"]
+                            if (
+                                "null"
+                                not in self.schemas.schema[json_doc["type"]][
+                                    "properties"
+                                ][key]["type"]
+                            ):
+                                if (
+                                    type(
+                                        self.schemas.schema[json_doc["type"]][
+                                            "properties"
+                                        ][key]["type"]
+                                    )
+                                    != list
+                                ):
+                                    self.schemas.schema[json_doc["type"]]["properties"][
+                                        key
+                                    ]["type"] = [
+                                        self.schemas.schema[json_doc["type"]][
+                                            "properties"
+                                        ][key]["type"]
+                                    ]
+                                self.schemas.schema[json_doc["type"]]["properties"][
+                                    key
+                                ]["type"] += ["null"]
+                else:
+                    try:
+                        if (
+                            "null"
+                            not in self.schemas.schema[json_doc["type"]][key]["type"]
+                        ):
+                            self.schemas.schema[json_doc["type"]][key]["type"] += [
+                                "null"
+                            ]
+                    except:
+                        if (
+                            "null"
+                            not in self.schemas.schema[json_doc["type"]]["properties"][
+                                key
+                            ]["type"]
+                        ):
+                            self.schemas.schema[json_doc["type"]]["properties"][key][
+                                "type"
+                            ] += ["null"]
