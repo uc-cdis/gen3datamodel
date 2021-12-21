@@ -27,7 +27,6 @@ setup(
         "jsonschema~=3.2",
         "psqlgraph~=3.0",
         "cdisutils",
-        "python-dateutil~=2.4",
         "sqlalchemy~=1.3",
     ],
     package_data={
