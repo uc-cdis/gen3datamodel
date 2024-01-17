@@ -39,7 +39,7 @@ datamodel, see the
 
 Before continuing you must have the following programs installed:
 
-- [Python 3.6+](http://python.org/)
+- [Python 3.9](http://python.org/)
 
 The gdcdatamodel library requires the following pip dependencies
 
