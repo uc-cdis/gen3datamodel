@@ -10,8 +10,7 @@ pytest = "*"
 
 [packages]
 gen3datamodel = {editable = true,path = "."}
-cdislogging = "==1.0.0"
-cdisutils = "*"
+cdislogging = "*"
 attrs = "==19.3.0"
 dictionaryutils = "==3.0.0"
 gdcdictionary = {editable = true,git = "https://github.com/NCI-GDC/gdcdictionary.git",ref = "release/py3"}
@@ -28,4 +27,4 @@ strict-rfc3339 = "==0.7"
 rstr = "==2.2.6"
 
 [requires]
-python_version = "3.6"
+python_version = ">=3.6,<4"
