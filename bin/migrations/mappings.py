@@ -107,4 +107,4 @@ class Mapping(object):
         '''
         Get program phsid for a project phsid
         '''
-        return self.PHSID_INV_TREE.get(phsid) 
+        return self.PHSID_INV_TREE.get(phsid)
