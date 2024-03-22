@@ -7,7 +7,6 @@ install:
   - pip install --upgrade pip
   - curl -sSL https://install.python-poetry.org | python -
   - which poetry
-  - poetry --version
   - poetry install --all-extras -vv --no-interaction
   - poetry show -vv
 before_script:
