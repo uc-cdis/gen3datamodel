@@ -7,14 +7,12 @@ install:
   - pip install --upgrade pip
   - pip install poetry
   - which poetry
-  - poetry install --all-extras -vv --no-interaction
+  - poetry install
   - poetry show -vv
 before_script:
-- poetry shell
-- poetry install
 - poetry run python bin/destroy_and_setup_psqlgraph.py
 script:
-- pipenv run pytest -v
+- poetry run pytest -v
 before_deploy:
 - sed -i.bak "s/=get_version()/='$TRAVIS_TAG'/g" setup.py
 - cat setup.py
