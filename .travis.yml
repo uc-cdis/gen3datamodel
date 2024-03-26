@@ -15,6 +15,9 @@ addons:
         key_url: https://www.postgresql.org/media/keys/ACCC4CF8.asc
     packages:
       - postgresql-13
+env:
+  global:
+  - PGPORT=5433
 
 install:
   - pip install --upgrade pip
