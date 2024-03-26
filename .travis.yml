@@ -13,6 +13,7 @@ install:
   - poetry install --all-extras -vv --no-interaction
   - poetry show -vv
 before_script:
+- psql -c 'SELECT version();' -U postgres
 - poetry run python bin/destroy_and_setup_psqlgraph.py
 script:
 - poetry run pytest -v
