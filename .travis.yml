@@ -4,7 +4,7 @@ python:
 - '3.9'
 
 addons:
-  postgresql: '9'
+  postgresql: '9.4'
 
 install:
   - pip install --upgrade pip
