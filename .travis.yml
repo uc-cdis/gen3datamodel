@@ -28,7 +28,6 @@ install:
 before_script:
 - ls -al /var/run/
 - ls -al /var/run/postgresql/
-- psql -c 'SELECT version();' -U postgres -p 5433
 - poetry run python bin/destroy_and_setup_psqlgraph.py
 script:
 - poetry run pytest -v
