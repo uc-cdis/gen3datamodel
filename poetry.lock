@@ -2372,5 +2372,5 @@ testing = ["contextlib2", "pathlib2", "unittest2"]
 
 [metadata]
 lock-version = "2.0"
-python-versions = "3.9"
-content-hash = "2186d5ad3303d039b83f8d092b2e1d3b73e553abb46af57993befe97d8542569"
+python-versions = ">=3.9,<4.0.0"
+content-hash = "c380a62c5bd77403d3eb9c5650d884fdfb9ca9591db625c8f4c411697efc23b9"

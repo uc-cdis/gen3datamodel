@@ -7,7 +7,7 @@ license = "Apache-2.0"
 readme = "README.md"
 
 [tool.poetry.dependencies]
-python = "3.9"
+python = ">=3.9,<4.0.0"
 cdislogging = "^1.1.1"
 attrs = "19.3.0"
 dictionaryutils = "3.0.0"
