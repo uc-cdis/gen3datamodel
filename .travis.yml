@@ -20,9 +20,9 @@ addons:
 
 before_install:
   - ls -al /etc/postgresql/13/main/
+  # travis with postgres 13 defaults port to 5433 and test looks for port 5432
   - sudo sed -i 's/port = 5433/port = 5432/' /etc/postgresql/13/main/postgresql.conf
   - sudo service postgresql restart 13
-  # - sudo pg_ctlcluster 13 main restart
 
 install:
   - pip install --upgrade pip
@@ -31,11 +31,9 @@ install:
   - poetry install --all-extras -vv --no-interaction
   - poetry show -vv
 before_script:
-- ls -al /var/run/
-- ls -al /var/run/postgresql/
 - poetry run python bin/destroy_and_setup_psqlgraph.py
 script:
-- poetry run pytest -v
+- poetry run pytest -vvv
 before_deploy:
 - sed -i.bak "s/=get_version()/='$TRAVIS_TAG'/g" setup.py
 - cat setup.py
