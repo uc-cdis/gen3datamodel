@@ -10,7 +10,7 @@ readme = "README.md"
 python = ">=3.9,<4.0.0"
 cdislogging = "^1.1.1"
 attrs = "19.3.0"
-dictionaryutils = "3.0.0"
+dictionaryutils = { git = "https://github.com/uc-cdis/dictionaryutils.git", branch = "chore/dep-no-dev-binam"}
 jsonschema = ">=3.2,<4.0"
 more-itertools = "7.2.0"
 zipp = "0.6.0"
