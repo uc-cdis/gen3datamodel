@@ -1,6 +1,6 @@
 language: python
 python:
-- '3.9'
+- '3.6'
 sudo: false
 # services:
 #     - postgresql
@@ -41,7 +41,7 @@ deploy:
   skip_existing: true
   skip_cleanup: true
   on:
-    python: 3.9
+    python: 3.6
     repo: uc-cdis/gdcdatamodel
     tags: true
   password:
