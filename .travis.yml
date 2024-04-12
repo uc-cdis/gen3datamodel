@@ -23,8 +23,8 @@ addons:
 
 install:
   - pip install --upgrade pip
-  # - curl -sSL https://install.python-poetry.org | python -
-  - pip install poetry
+  - curl -sSL https://install.python-poetry.org | python -
+  # - pip install poetry
   - which poetry
   - poetry install -vv --no-interaction
   - poetry show -vv
