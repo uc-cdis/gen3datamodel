@@ -3,8 +3,8 @@ dist: jammy
 python:
 - '3.9'
 sudo: false
-# services:
-#     - postgresql
+services:
+    - postgresql
 
 addons:
   postgresql: '13'
