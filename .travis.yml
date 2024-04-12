@@ -26,7 +26,7 @@ install:
   # - curl -sSL https://install.python-poetry.org | python -
   - pip install poetry
   - which poetry
-  - poetry install --all-extras -vv --no-interaction
+  - poetry install -vv --no-interaction
   - poetry show -vv
 before_script:
 - poetry run python bin/destroy_and_setup_psqlgraph.py
