@@ -7,20 +7,20 @@ sudo: false
 #     - postgresql
 
 addons:
-  postgresql: '9.4'
-  # apt:
-  #   sources:
-  #     - sourceline: deb http://apt.postgresql.org/pub/repos/apt/ jammy-pgdg main
-  #         13
-  #       key_url: https://www.postgresql.org/media/keys/ACCC4CF8.asc
-  #   packages:
-  #     - postgresql-13
+  postgresql: '13'
+  apt:
+    sources:
+      - sourceline: deb http://apt.postgresql.org/pub/repos/apt/ jammy-pgdg main
+          13
+        key_url: https://www.postgresql.org/media/keys/ACCC4CF8.asc
+    packages:
+      - postgresql-13
 
-# before_install:
-  # - ls -al /etc/postgresql/13/main/
-  # travis with postgres 13 defaults port to 5433 and test looks for port 5432
-  # - sudo sed -i 's/port = 5433/port = 5432/' /etc/postgresql/13/main/postgresql.conf
-  # - sudo service postgresql restart 13
+before_install:
+  - ls -al /etc/postgresql/13/main/
+  travis with postgres 13 defaults port to 5433 and test looks for port 5432
+  - sudo sed -i 's/port = 5433/port = 5432/' /etc/postgresql/13/main/postgresql.conf
+  - sudo service postgresql restart 13
 
 install:
   - pip install --upgrade pip
