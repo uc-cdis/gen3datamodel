@@ -34,7 +34,7 @@ pytest = "*"
 gdc_postgres_admin = "gdcdatamodel.gdc_postgres_admin:main"
 
 [build-system]
-requires = ["poetry-core"]
+requires = ["poetry-core>=1.6"]
 build-backend = "poetry.core.masonry.api"
 
 [[tool.poetry.packages]]
