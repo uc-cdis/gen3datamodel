@@ -1,8 +1,10 @@
 language: python
 dist: jammy
 python:
-- '3.9'
+  - '3.9'
+
 sudo: false
+
 services:
     - postgresql
 
@@ -18,14 +20,13 @@ addons:
 
 before_install:
   - ls -al /etc/postgresql/13/main/
-  travis with postgres 13 defaults port to 5433 and test looks for port 5432
+  # travis with postgres 13 defaults port to 5433 and test looks for port 5432
   - sudo sed -i 's/port = 5433/port = 5432/' /etc/postgresql/13/main/postgresql.conf
   - sudo service postgresql restart 13
 
 install:
   - pip install --upgrade pip
   - curl -sSL https://install.python-poetry.org | python -
-  # - pip install poetry
   - which poetry
   - poetry install -vv --no-interaction
   - poetry show -vv
