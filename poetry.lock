@@ -363,7 +363,7 @@ requests = "*"
 type = "git"
 url = "https://github.com/uc-cdis/dictionaryutils.git"
 reference = "chore/dep-no-dev-binam"
-resolved_reference = "bc044c6a3ee580864905b977ea3a3fc20cd8132c"
+resolved_reference = "3b91d52af3292e219f1f363ffb4a30d73d485850"
 
 [[package]]
 name = "entrypoints"
