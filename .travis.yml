@@ -1,7 +1,7 @@
 language: python
 dist: jammy
 python:
-- '3.6'
+- '3.9'
 sudo: false
 # services:
 #     - postgresql
@@ -43,7 +43,7 @@ deploy:
   skip_existing: true
   skip_cleanup: true
   on:
-    python: 3.6
+    python: 3.9
     repo: uc-cdis/gdcdatamodel
     tags: true
   password:
