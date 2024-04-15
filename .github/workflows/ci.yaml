@@ -17,6 +17,12 @@ jobs:
        python-poetry: 'false'
     secrets: inherit
 
+  services:
+    postgres:
+      image: postgres
+      ports:
+        - 5432:5433
+
   UnitTest:
     name: Python Unit Test with Postgres
     uses: uc-cdis/.github/.github/workflows/python_unit_test.yaml@master
