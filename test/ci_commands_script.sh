@@ -6,5 +6,5 @@ set -e
 
 # datadict and datadictwithobjid tests must run separately to allow
 # loading different datamodels
-poetry run python bin/destroy_and_setuop_psqlgraph.py
-poetry run pytest -vv --cov=indexd --cov-report xml tests
+poetry run python bin/destroy_and_setup_psqlgraph.py
+poetry run pytest -vv --cov=gdcdatamodel --cov-report xml tests
