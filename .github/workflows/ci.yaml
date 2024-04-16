@@ -19,6 +19,19 @@ jobs:
 
   UnitTest:
     name: Python Unit Test with Postgres
+    services:
+      postgres:
+        image: postgres
+        env:
+          POSTGRES>PASSWORD: postgres # pragma: allowlist secret
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+        ports:
+          # Maps tcp port 5432 on service container to the host
+          - 5432:5432
     uses: uc-cdis/.github/.github/workflows/python_unit_test.yaml@master
     with:
        setup-script: 'test/ci_setup.sh'
