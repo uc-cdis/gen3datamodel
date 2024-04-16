@@ -242,7 +242,7 @@ if __name__ == "__main__":
     graph_write_users = [u for u in args.graph_write_users.split(",") if u]
     graph_read_users = [u for u in args.graph_read_users.split(",") if u]
     engine = create_engine(
-        "postgres://{user}:{pwd}@{host}/{db}".format(
+        "postgresql://{user}:{pwd}@{host}/{db}".format(
             user=args.user, host=args.host, pwd=args.password, db=args.database
         ),
         connect_args=connect_args,

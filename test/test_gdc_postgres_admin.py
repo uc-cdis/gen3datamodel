@@ -43,7 +43,7 @@ class TestGDCPostgresAdmin(unittest.TestCase):
     ]
 
     g = PsqlGraphDriver(host, user, "", database)
-    root_con_str = "postgres://{user}:{pwd}@{host}/{db}".format(
+    root_con_str = "postgresql://{user}:{pwd}@{host}/{db}".format(
         user=user, host=host, pwd="", db=database
     )
     engine = pgadmin.create_engine(root_con_str)
