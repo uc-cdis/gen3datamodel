@@ -20,15 +20,6 @@ jobs:
   UnitTest:
     name: Python Unit Test with Postgres
     uses: uc-cdis/.github/.github/workflows/python_unit_test.yaml@master
-    services:
-      postgres:
-        image: postgres:9
-        env:
-          POSTRES_USER: postgres
-          POSTGRES_PASSWORD: postgres # pragma: allowlist secret
-          POSTGRES_DB: db_test
-        ports:
-          - 5432:5432
     with:
        setup-script: 'test/ci_setup.sh'
        test-script: 'test/ci_commands_script.sh'
