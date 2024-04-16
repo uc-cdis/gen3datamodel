@@ -1,5 +1,4 @@
 #!/usr/bin/env bash
-rm /usr/local/var/postgres/postmaster.pid
 poetry run python bin/destroy_and_setup_psqlgraph.py
 # sudo service postgresql restart 13
 # openssl genrsa -out test_private_key.pem 2048

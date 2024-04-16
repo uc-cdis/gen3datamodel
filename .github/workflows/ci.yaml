@@ -20,6 +20,11 @@ jobs:
   UnitTest:
     name: Python Unit Test with Postgres
     uses: uc-cdis/.github/.github/workflows/python_unit_test.yaml@master
+    services:
+      postgres:
+        ports:
+          - 5432/tcp
+          - 5433/tcp
     with:
        setup-script: 'test/ci_setup.sh'
        test-script: 'test/ci_commands_script.sh'
