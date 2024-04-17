@@ -22,12 +22,29 @@ jobs:
     services:
       postgres:
         image: postgres:13
-    uses: uc-cdis/.github/.github/workflows/python_unit_test.yaml@master
-    with:
-       setup-script: 'test/ci_setup.sh'
-       test-script: 'test/ci_commands_script.sh'
-       python-version: '3.9'
-       run-coveralls: true
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v2
+
+      - name: Set Up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.9
+
+      - name: Install and run
+        uses: uc-cdis/.github/.github/workflows/python_unit_test.yaml@master
+        with:
+          setup-script: 'test/ci_setup.sh'
+          test-script: 'test/ci_commands_script.sh'
+          python-version: '3.9'
+          run-coveralls: true
+
+    # uses: uc-cdis/.github/.github/workflows/python_unit_test.yaml@master
+    # with:
+    #    setup-script: 'test/ci_setup.sh'
+    #    test-script: 'test/ci_commands_script.sh'
+    #    python-version: '3.9'
+    #    run-coveralls: true
 
   ImageBuildAndPush:
     name: Build Image and Push
