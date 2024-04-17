@@ -37,6 +37,13 @@ jobs:
           sudo sed -i 's/port = 5433/port = 5432/' /etc/postgresql/14/main/postgresql.conf
           sudo service postgresql restart 14
 
+      - name: Wait for PostgreSQL to start
+        run: |
+          until pg_isready -h localhost -p 5432; do
+            echo "Waiting for PostgreSQL to start..."
+            sleep 2
+          done
+
       - name: Checkout Repository
         uses: actions/checkout@v2
 
