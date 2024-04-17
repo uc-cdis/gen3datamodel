@@ -33,7 +33,8 @@ jobs:
     steps:
       - name: Set Port
         run: |
-          ls -al /usr/local/var/
+          where psql
+          # ls -al /usr/local/var/
           # sudo ed -i 's/port = 5433/port = 5432/' /etc/postgresql/13/main/postgresql.conf
           # sudo service postgresql restart 13
 
