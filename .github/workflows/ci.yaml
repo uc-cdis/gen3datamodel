@@ -19,6 +19,9 @@ jobs:
 
   UnitTest:
     name: Python Unit Test with Postgres
+    services:
+      postgres:
+        image: postgres:13
     uses: uc-cdis/.github/.github/workflows/python_unit_test.yaml@master
     with:
        setup-script: 'test/ci_setup.sh'
