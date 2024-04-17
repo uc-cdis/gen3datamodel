@@ -20,12 +20,30 @@ jobs:
   UnitTest:
     name: Python Unit Test with Postgres
     runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:13
+        env:
+          POSTGRES_DB: automated_test
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres # pragma: allowlist secret
+        ports:
+          - 5432:5432
+        options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
     steps:
       - name: Set Port
         run: |
           ls -al /etc/postgresql/14/main/
           sudo sed -i 's/port = 5433/port = 5432/' /etc/postgresql/14/main/postgresql.conf
-          sudo service postgresql restart
+          export PGHOST=localhost
+          sudo service postgresql restart 14
+
+      - name: Wait for PostgreSQL to start
+        run: |
+          until pg_isready -h localhost -p 5432; do
+            echo "Waiting for PostgreSQL to start..."
+            sleep 2
+          done
 
       - name: Checkout Repository
         uses: actions/checkout@v2
