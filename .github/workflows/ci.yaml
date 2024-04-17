@@ -20,16 +20,6 @@ jobs:
   UnitTest:
     name: Python Unit Test with Postgres
     runs-on: ubuntu-latest
-    services:
-      postgres:
-        image: postgres:13
-        env:
-          POSTGRES_DB: automated_test
-          POSTGRES_USER: test
-          POSTGRES_PASSWORD: test # pragma: allowlist secret
-        ports:
-          - 5432:5432
-        options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
     steps:
       - name: Set Port
         run: |
