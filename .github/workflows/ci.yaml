@@ -19,6 +19,7 @@ jobs:
 
   UnitTest:
     name: Python Unit Test with Postgres
+    runs-on: ubuntu-latest
     services:
       postgres:
         image: postgres:13
