@@ -33,7 +33,7 @@ install:
 before_script:
 - poetry run python bin/destroy_and_setup_psqlgraph.py
 script:
-- poetry run pytest -vvv
+- poetry run pytest -vvv -s
 before_deploy:
 - sed -i.bak "s/=get_version()/='$TRAVIS_TAG'/g" setup.py
 - cat setup.py
