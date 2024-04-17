@@ -25,7 +25,14 @@ jobs:
         image: postgres:13
         ports:
           - 5432:5432
+        options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
     steps:
+      - name: Set Port
+        run: |
+          ls -al /etc/postgresql/13/main/
+          sudo ed -i 's/port = 5433/port = 5432/' /etc/postgresql/13/main/postgresql.conf
+          sudo service postgresql restart 13
+
       - name: Checkout Repository
         uses: actions/checkout@v2
 
