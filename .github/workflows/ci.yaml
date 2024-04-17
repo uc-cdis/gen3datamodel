@@ -25,18 +25,6 @@ jobs:
         run: |
           ls -al /etc/postgresql/14/main/
           sudo sed -i 's/port = 5433/port = 5432/' /etc/postgresql/14/main/postgresql.conf
-          sudo service postgresql restart 14
-
-      - name: Wait for PostgreSQL to start
-        run: |
-          until pg_isready -h localhost -p 5432; do
-            echo "Waiting for PostgreSQL to start..."
-            sleep 2
-          done
-
-      - name: Set up PostgreSQL authentication
-        run: |
-          echo "host all all 0.0.0.0/0 md5" | sudo tee -a /etc/postgresql/14/main/pg_hba.conf
           sudo service postgresql restart
 
       - name: Checkout Repository
