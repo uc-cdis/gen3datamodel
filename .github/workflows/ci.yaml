@@ -31,20 +31,19 @@ jobs:
         with:
           python-version: 3.9
 
-      - name: Install and run
-        uses: uc-cdis/.github/.github/workflows/python_unit_test.yaml@master
-        with:
-          setup-script: 'test/ci_setup.sh'
-          test-script: 'test/ci_commands_script.sh'
-          python-version: '3.9'
-          run-coveralls: true
+      - name: Install dependencies
+        run: |
+          pip install --upgrade pip
+          curl -sSL https://install.python-poetry.org | python -
+          which poetry
+          poetry install -vv --no-interaction
+          poetry show -vv
 
-    # uses: uc-cdis/.github/.github/workflows/python_unit_test.yaml@master
-    # with:
-    #    setup-script: 'test/ci_setup.sh'
-    #    test-script: 'test/ci_commands_script.sh'
-    #    python-version: '3.9'
-    #    run-coveralls: true
+      - name: Setup script
+        run: poetry run python bin/destroy_and_setup_psqlgraph.py
+
+      - name: Run Tests
+        run: poetry run pytest -vvv
 
   ImageBuildAndPush:
     name: Build Image and Push
