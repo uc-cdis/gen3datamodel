@@ -34,7 +34,7 @@ jobs:
       - name: Set Port
         run: |
           ls -al /etc/postgresql/14/main/
-          sudo ed -i 's/port = 5433/port = 5432/' /etc/postgresql/14/main/postgresql.conf
+          sudo sed -i 's/port = 5433/port = 5432/' /etc/postgresql/14/main/postgresql.conf
           sudo service postgresql restart 14
 
       - name: Checkout Repository
