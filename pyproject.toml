@@ -1,0 +1,43 @@
+[tool.poetry]
+name = "gen3datamodel"
+homepage = "https://gen3.org/"
+version = "3.1.3"
+description = ""
+authors = ["CTDS UChicago <cdis@uchicago.edu>"]
+license = "Apache-2.0"
+repository = "https://github.com/uc-cdis/gdcdatamodel"
+
+[tool.poetry.dependencies]
+python = "3.9.*"
+cdislogging = "*"
+attrs = "==19.3.0"
+dictionaryutils = "==3.0.0"
+gdcdictionary = {git = "https://github.com/NCI-GDC/gdcdictionary.git", rev = "release/py3"}
+jsonschema = "~=3.2"
+more-itertools = "==7.2.0"
+zipp = "==0.6.0"
+importlib-metadata = "==0.23"
+pyrsistent = "==0.15.4"
+pytz = "*"
+psqlgraph = "~=3.0"
+psycopg2-binary = "==2.8.2"
+sqlalchemy = "==1.3.3"
+strict-rfc3339 = "==0.7"
+rstr = "==2.2.6"
+
+[tool.poetry.dev-dependencies]
+pytest = ">=3.2.3"
+mock = "*"
+cdisutilstest = { git = "https://github.com/uc-cdis/cdisutils-test.git", tag = "1.0.0" }
+
+[build-system]
+requires = ["poetry>=0.12"]
+build-backend = "poetry.masonry.api"
+
+
+[tool.pytest.ini_options]
+minversion = "6.0"
+addopts = "-vv"
+testpaths = [
+    "tests",
+]
