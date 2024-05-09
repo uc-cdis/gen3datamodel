@@ -6,8 +6,8 @@ Tests for gdcdatamodel.gdc_postgres_admin module
 import logging
 import unittest
 
-from gdcdatamodel import gdc_postgres_admin as pgadmin
-from gdcdatamodel import models
+from gen3datamodel import gdc_postgres_admin as pgadmin
+from gen3datamodel import models
 from sqlalchemy.exc import ProgrammingError
 
 from multiprocessing import (

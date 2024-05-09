@@ -1,8 +1,8 @@
 import unittest
 import uuid
-from gdcdatamodel.validators import GDCJSONValidator, GDCGraphValidator
+from gen3datamodel.validators import GDCJSONValidator, GDCGraphValidator
 from psqlgraph import PsqlGraphDriver
-from gdcdatamodel.models import *
+from gen3datamodel.models import *
 
 host = "localhost"
 user = "test"

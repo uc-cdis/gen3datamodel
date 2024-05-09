@@ -1,1 +1,0 @@
-from gdcdatamodel import *

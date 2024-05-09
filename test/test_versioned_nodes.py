@@ -1,4 +1,4 @@
-from gdcdatamodel import models as md
+from gen3datamodel import models as md
 from psqlgraph import Node, Edge, PsqlGraphDriver
 
 import unittest

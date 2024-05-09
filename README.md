@@ -1,11 +1,11 @@
-GDC Data Model
+Gen3 Data Model
 ==============
 
-Repo to keep information about the GDC data model design.
+Repo to keep information about the Gen3 data model design.
 
 # Installation
 
-To install the gdcdatamodel library run the setup script:
+To install the gen3datamodel library run the setup script:
 ```
 ❯ python setup.py install
 ```
@@ -41,7 +41,7 @@ Before continuing you must have the following programs installed:
 
 - [Python 3.6+](http://python.org/)
 
-The gdcdatamodel library requires the following pip dependencies
+The gen3datamodel library requires the following pip dependencies
 
 - [avro](https://avro.apache.org/)
 - [graphviz](http://www.graphviz.org/)
@@ -52,8 +52,8 @@ Project dependencies are managed using [Pipenv](https://pipenv.readthedocs.io/en
 
 # Example validation usage
 ```
-from gdcdatamodel import node_avsc_object
-from gdcdatamodel.mappings import get_participant_es_mapping, get_file_es_mapping
+from gen3datamodel import node_avsc_object
+from gen3datamodel.mappings import get_participant_es_mapping, get_file_es_mapping
 from avro.io import validate
 import json
 
@@ -69,7 +69,7 @@ print(get_file_es_mapping())         # Prints file elasticsearch mapping
 
 # Example Elasticsearch mapping usage
 ```
-from gdcdatamodel import mappings
+from gen3datamodel import mappings
 print(mappings.get_file_es_mapping())
 print(mappings.get_participant_es_mapping())
 ```
