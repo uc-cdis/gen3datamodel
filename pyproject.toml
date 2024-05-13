@@ -16,7 +16,7 @@ gdcdictionary = {git = "https://github.com/NCI-GDC/gdcdictionary.git", rev = "re
 jsonschema = "~=3.2"
 more-itertools = "==7.2.0"
 zipp = "==0.6.0"
-importlib-metadata = "==0.23"
+importlib-metadata = ">=3.6.0"
 pyrsistent = "==0.15.4"
 pytz = "*"
 psqlgraph = "~=3.0"
