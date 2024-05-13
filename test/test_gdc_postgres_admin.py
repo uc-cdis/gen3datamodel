@@ -31,7 +31,7 @@ class TestGDCPostgresAdmin(unittest.TestCase):
 
     host = "localhost"
     user = "postgres"
-    database = "automated_test"
+    database = "postgres"
 
     base_args = [
         "-H",

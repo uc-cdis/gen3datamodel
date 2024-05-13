@@ -6,7 +6,7 @@ import unittest
 host = "localhost"
 user = "test"
 password = "test"
-database = "automated_test"
+database = "postgres"
 g = PsqlGraphDriver(host, user, password, database)
 
 

@@ -28,7 +28,7 @@ Usage:
 update_legacy_states(
     host='localhost',
     user='test',
-    database='automated_test',
+    database='postgres',
     password='test')
 ```
 
