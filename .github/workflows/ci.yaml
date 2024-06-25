@@ -35,6 +35,10 @@ jobs:
         poetry show -vv
     - name: Create database
       run: |
+        echo "Check version"
+        psql -U postgres -c 'SELECT version()'
+        echo "Check version localhost"
+        psql -U postgres -h localhost -c 'SELECT version()'
         poetry run python bin/destroy_and_setup_psqlgraph.py
     - name: Test with pytest
       run: |
