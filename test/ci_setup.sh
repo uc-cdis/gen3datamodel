@@ -1,3 +1,3 @@
 #!/usr/bin/env bash
 set -e
-poetry run python bin/destroy_and_setup_psqlgraph.py
+poetry run python bin/destroy_and_setup_psqlgraph.py --user postgres --password postgres
