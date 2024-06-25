@@ -2,7 +2,7 @@ import argparse
 from sqlalchemy import create_engine
 import logging
 
-from gdcdatamodel.models import *
+from gen3datamodel.models import *
 from psqlgraph import create_all, Node, Edge
 
 
@@ -21,7 +21,7 @@ def try_drop_test_data(user, database, root_user="postgres", host=""):
         create_stmt = 'DROP DATABASE "{database}"'.format(database=database)
         conn.execute(create_stmt)
     except Exception as msg:
-        logging.warn("Unable to drop test data:" + str(msg))
+        logging.warning("Unable to drop test data:" + str(msg))
 
     conn.close()
 

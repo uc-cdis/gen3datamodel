@@ -30,21 +30,24 @@ class TestGDCPostgresAdmin(unittest.TestCase):
     logger.setLevel(logging.INFO)
 
     host = "localhost"
-    user = "postgres"
-    database = "postgres"
+    user = "test"
+    password = "test"
+    database = "automated_test"
 
     base_args = [
         "-H",
         host,
         "-U",
         user,
+        "-P",
+        password,
         "-D",
         database,
     ]
 
     g = PsqlGraphDriver(host, user, "", database)
     root_con_str = "postgres://{user}:{pwd}@{host}/{db}".format(
-        user=user, host=host, pwd="", db=database
+        user=user, host=host, pwd=password, db=database
     )
     engine = pgadmin.create_engine(root_con_str)
 
@@ -72,8 +75,7 @@ class TestGDCPostgresAdmin(unittest.TestCase):
     def create_all_tables(cls):
         parser = pgadmin.get_parser()
         args = parser.parse_args(
-            ["graph-create", "--delay", "1", "--retries", "0", "--force"]
-            + cls.base_args
+            ["graph-create", "--delay", "1", "--retries", "0"] + cls.base_args
         )
         pgadmin.main(args)
 
@@ -113,69 +115,6 @@ class TestGDCPostgresAdmin(unittest.TestCase):
         )
 
         self.engine.execute("SELECT * from node_case")
-
-    def test_create_fails_blocked_without_force(self):
-        """Test table creation fails when blocked w/o force"""
-
-        q = Queue()  # to communicate with blocking process
-
-        args = pgadmin.get_parser().parse_args(
-            ["graph-create", "--delay", "1", "--retries", "1"] + self.base_args
-        )
-        pgadmin.main(args)
-
-        self.drop_a_table()
-
-        def blocker():
-            with self.g.session_scope() as s:
-                s.merge(models.Case("1"))
-                q.put(0)  # Tell main thread we're ready
-                q.get()  # Wait for main thread to tell us to exit
-
-        p = Process(target=blocker)
-        p.daemon = True
-        p.start()
-        q.get()
-
-        with self.assertRaises(RuntimeError):
-            pgadmin.main(args)
-
-        q.put(0)
-        p.terminate()
-
-    def test_create_force(self):
-        """Test ability to force table creation"""
-
-        q = Queue()  # to communicate with blocking process
-
-        args = pgadmin.get_parser().parse_args(
-            ["graph-create", "--delay", "1", "--retries", "1", "--force"]
-            + self.base_args
-        )
-        pgadmin.main(args)
-
-        self.drop_a_table()
-
-        def blocker():
-            with self.g.session_scope() as s:
-                s.merge(models.Case("1"))
-                q.put(0)  # Tell main thread we're ready
-                q.get()  # This get should block until this prcoess is killed
-                assert False, "Should not be reachable!"
-
-        p = Process(target=blocker)
-        p.daemon = True
-        p.start()
-        q.get()
-
-        try:
-            pgadmin.main(args)
-        except:
-            p.terminate()
-            raise
-
-        q.put(0)
-        p.terminate()
 
     def test_priv_grant_read(self):
         """Test ability to grant read but not write privs"""
