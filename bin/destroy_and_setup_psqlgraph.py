@@ -9,6 +9,7 @@ from psqlgraph import create_all, Node, Edge
 def try_drop_test_data(
     user, password, database, root_user="postgres", host="localhost"
 ):
+    """Connect as root user and drop the test database"""
 
     print("Dropping old test data")
     print(
@@ -51,6 +52,7 @@ def setup_database(
     if not no_drop:
         try_drop_test_data(user, password, database)
 
+    print(f"Create database {database}")
     engine = create_engine(
         "postgres://{user}@{host}/postgres".format(user=root_user, host=host)
     )
@@ -117,7 +119,7 @@ if __name__ == "__main__":
         "--database",
         type=str,
         action="store",
-        default="postgres",
+        default="gen3datamodel_test",
         help="psql test database",
     )
     parser.add_argument(

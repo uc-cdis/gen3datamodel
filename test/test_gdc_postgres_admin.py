@@ -32,7 +32,7 @@ class TestGDCPostgresAdmin(unittest.TestCase):
     host = "localhost"
     user = "test"
     password = "test"
-    database = "automated_test"
+    database = "gen3datamodel_test"
 
     base_args = [
         "-H",
