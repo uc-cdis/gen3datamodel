@@ -6,10 +6,14 @@ from gen3datamodel.models import *
 from psqlgraph import create_all, Node, Edge
 
 
-def try_drop_test_data(user, database, root_user="postgres", host=""):
+def try_drop_test_data(user, database, root_user="postgres", host="localhost"):
 
     print("Dropping old test data")
-
+    print(
+        "Connection URI = postgres://{user}@{host}/postgres".format(
+            user=root_user, host=host
+        )
+    )
     engine = create_engine(
         "postgres://{user}@{host}/postgres".format(user=root_user, host=host)
     )
