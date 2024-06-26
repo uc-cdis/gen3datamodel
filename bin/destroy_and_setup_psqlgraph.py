@@ -6,16 +6,20 @@ from gen3datamodel.models import *
 from psqlgraph import create_all, Node, Edge
 
 
-def try_drop_test_data(user, database, root_user="postgres", host="localhost"):
+def try_drop_test_data(
+    user, password, database, root_user="postgres", host="localhost"
+):
 
     print("Dropping old test data")
     print(
-        "Connection URI = postgres://{user}@{host}/postgres".format(
-            user=root_user, host=host
+        "Connection URI = postgres://{user}:{pwd}@{host}/postgres".format(
+            user=root_user, pwd=password, host=host
         )
     )
     engine = create_engine(
-        "postgres://{user}@{host}/postgres".format(user=root_user, host=host)
+        "postgres://{user}:{pwd}@{host}/postgres".format(
+            user=root_user, pwd=password, host=host
+        )
     )
 
     conn = engine.connect()
@@ -45,7 +49,7 @@ def setup_database(
     print("Setting up test database")
 
     if not no_drop:
-        try_drop_test_data(user, database)
+        try_drop_test_data(user, password, database)
 
     engine = create_engine(
         "postgres://{user}@{host}/postgres".format(user=root_user, host=host)
@@ -57,7 +61,7 @@ def setup_database(
     try:
         conn.execute(create_stmt)
     except Exception as msg:
-        logging.warn("Unable to create database: {}".format(msg))
+        logging.warning("Unable to create database: {}".format(msg))
 
     if not no_user:
         try:
@@ -73,7 +77,7 @@ def setup_database(
             conn.execute(perm_stmt)
             conn.execute("commit")
         except Exception as msg:
-            logging.warn("Unable to add user:" + str(msg))
+            logging.warning("Unable to add user:" + str(msg))
     conn.close()
 
 
