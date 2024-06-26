@@ -81,11 +81,16 @@ def setup_database(
             conn.execute(user_stmt)
 
             perm_stmt = (
-                "GRANT ALL PRIVILEGES ON DATABASE {database} to {password}"
-                "".format(database=database, password=password)
+                "GRANT ALL PRIVILEGES ON DATABASE {database} to {user}"
+                "".format(database=database, user=user)
             )
             print(f"Perm stmt {perm_stmt}")
             conn.execute(perm_stmt)
+            conn.execute("commit")
+
+            alter_stmt = "ALTER USER {user} CREATEROLE" "".format(user=user)
+            print(f"ALTER stmt {alter_stmt}")
+            conn.execute(alter_stmt)
             conn.execute("commit")
         except Exception as msg:
             logging.warning("Unable to add user:" + str(msg))
