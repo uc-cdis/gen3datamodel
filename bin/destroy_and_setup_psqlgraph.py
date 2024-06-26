@@ -120,13 +120,13 @@ if __name__ == "__main__":
         "--host", type=str, action="store", default="localhost", help="psql-server host"
     )
     parser.add_argument(
-        "--user", type=str, action="store", default="test", help="psql test user"
+        "--user", type=str, action="store", default="postgres", help="psql test user"
     )
     parser.add_argument(
         "--password",
         type=str,
         action="store",
-        default="test",
+        default="postgres",
         help="psql test password",
     )
     parser.add_argument(

@@ -30,8 +30,8 @@ class TestGDCPostgresAdmin(unittest.TestCase):
     logger.setLevel(logging.INFO)
 
     host = "localhost"
-    user = "test"
-    password = "test"
+    user = "postgres"
+    password = "postgres"
     database = "gen3datamodel_test"
 
     base_args = [
@@ -58,8 +58,8 @@ class TestGDCPostgresAdmin(unittest.TestCase):
 
         # Re-grant permissions to test user
         for scls in Node.__subclasses__() + Edge.__subclasses__():
-            statment = "GRANT ALL PRIVILEGES ON TABLE {} TO test".format(
-                scls.__tablename__
+            statment = "GRANT ALL PRIVILEGES ON TABLE {} TO {user}".format(
+                scls.__tablename__, cls.user
             )
             cls.engine.execute("BEGIN; %s; COMMIT;" % statment)
 
