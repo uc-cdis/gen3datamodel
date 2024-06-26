@@ -7,7 +7,7 @@ from gen3datamodel.models import *
 host = "localhost"
 user = "test"
 password = "test"
-database = "postgres"
+database = "gen3datamodel_test"
 g = PsqlGraphDriver(host, user, password, database)
 
 
