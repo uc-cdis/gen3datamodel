@@ -4,8 +4,8 @@ from psqlgraph import Node, Edge, PsqlGraphDriver
 import unittest
 
 host = "localhost"
-user = "test"
-password = "test"
+user = "postgres"
+password = "postgres"
 database = "gen3datamodel_test"
 g = PsqlGraphDriver(host, user, password, database)
 

@@ -15,9 +15,9 @@ import pytest
 def db_config():
     return {
         "host": "localhost",
-        "user": "test",
-        "password": "test",
-        "database": "postgres",
+        "user": "postgres",
+        "password": "postgres",
+        "database": "gen3datamodel_test",
     }
 
 

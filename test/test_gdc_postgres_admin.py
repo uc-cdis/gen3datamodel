@@ -58,8 +58,8 @@ class TestGDCPostgresAdmin(unittest.TestCase):
 
         # Re-grant permissions to test user
         for scls in Node.__subclasses__() + Edge.__subclasses__():
-            statment = "GRANT ALL PRIVILEGES ON TABLE {} TO {user}".format(
-                scls.__tablename__, cls.user
+            statment = "GRANT ALL PRIVILEGES ON TABLE {} TO postgres".format(
+                scls.__tablename__
             )
             cls.engine.execute("BEGIN; %s; COMMIT;" % statment)
 
