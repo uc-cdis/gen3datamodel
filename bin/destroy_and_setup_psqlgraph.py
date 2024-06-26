@@ -54,7 +54,9 @@ def setup_database(
 
     print(f"Create database {database}")
     engine = create_engine(
-        "postgres://{user}@{host}/postgres".format(user=root_user, host=host)
+        "postgres://{user}:{pwd}@{host}/postgres".format(
+            user=root_user, pwd=password, host=host
+        )
     )
     conn = engine.connect()
     conn.execute("commit")
