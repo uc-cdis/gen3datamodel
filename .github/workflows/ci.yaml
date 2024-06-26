@@ -42,7 +42,7 @@ jobs:
         poetry run python bin/destroy_and_setup_psqlgraph.py --user postgres --password postgres
     - name: Test with pytest
       run: |
-        poetry run pytest test/ -vv --cov=src --cov=migrations/versions --cov-report xml
+        poetry run pytest -vv --cov=src --cov=migrations/versions --cov-report xml test
     - name: Submit coverage report
       env:
         COVERALLS_REPO_TOKEN: ${{ secrets.COVERALLS_TOKEN }}
