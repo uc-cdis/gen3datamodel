@@ -14,12 +14,12 @@ def try_drop_test_data(
     print("Dropping old test data")
     print(
         "Connection URI = postgres://{user}:{pwd}@{host}/postgres".format(
-            user=root_user, pwd=password, host=host
+            user=root_user, pwd="postgres", host=host
         )
     )
     engine = create_engine(
         "postgres://{user}:{pwd}@{host}/postgres".format(
-            user=root_user, pwd=password, host=host
+            user=root_user, pwd="postgres", host=host
         )
     )
 
@@ -55,12 +55,12 @@ def setup_database(
     print(f"Create database {database}")
     print(
         "Connection URI = postgres://{user}:{pwd}@{host}/postgres".format(
-            user=root_user, pwd=password, host=host
+            user=root_user, pwd="postgres", host=host
         )
     )
     engine = create_engine(
         "postgres://{user}:{pwd}@{host}/postgres".format(
-            user=root_user, pwd=password, host=host
+            user=root_user, pwd="postgres", host=host
         )
     )
     conn = engine.connect()

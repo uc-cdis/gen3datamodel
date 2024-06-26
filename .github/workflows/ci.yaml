@@ -39,7 +39,7 @@ jobs:
         psql postgres://postgres:postgres@localhost:5432/postgres -c 'SELECT version()'
         echo "Run db creation"
         #
-        poetry run python bin/destroy_and_setup_psqlgraph.py --user postgres --password postgres
+        poetry run python bin/destroy_and_setup_psqlgraph.py --user test --password test
     - name: Test with pytest
       run: |
         poetry run pytest -vv --cov=gen3datamodel --cov=migrations/versions --cov-report xml test
