@@ -10,8 +10,8 @@ jobs:
       postgres:
         image: postgres:9.6
         env:
-          POSTGRES_USER: postgres
-          POSTGRES_PASSWORD: postgres
+          POSTGRES_USER: test
+          POSTGRES_PASSWORD: test
           POSTGRES_DB: gen3datamodel_test
         ports:
         - 5432:5432
