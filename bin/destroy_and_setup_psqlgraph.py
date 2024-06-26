@@ -40,7 +40,7 @@ def setup_database(
     password,
     database,
     root_user="postgres",
-    host="",
+    host="localhost",
     no_drop=False,
     no_user=False,
 ):
