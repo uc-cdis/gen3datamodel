@@ -53,6 +53,11 @@ def setup_database(
         try_drop_test_data(user, password, database)
 
     print(f"Create database {database}")
+    print(
+        "Connection URI = postgres://{user}:{pwd}@{host}/postgres".format(
+            user=root_user, pwd=password, host=host
+        )
+    )
     engine = create_engine(
         "postgres://{user}:{pwd}@{host}/postgres".format(
             user=root_user, pwd=password, host=host
