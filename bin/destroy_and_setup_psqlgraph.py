@@ -77,12 +77,14 @@ def setup_database(
             user_stmt = "CREATE USER {user} WITH PASSWORD '{password}'".format(
                 user=user, password=password
             )
+            print(f"Create user stmt {user_stmt}")
             conn.execute(user_stmt)
 
             perm_stmt = (
                 "GRANT ALL PRIVILEGES ON DATABASE {database} to {password}"
                 "".format(database=database, password=password)
             )
+            print(f"Perm stmt {perm_stmt}")
             conn.execute(perm_stmt)
             conn.execute("commit")
         except Exception as msg:
