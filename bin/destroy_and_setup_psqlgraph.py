@@ -10,13 +10,8 @@ def try_drop_test_data(
     user, password, database, root_user="postgres", host="localhost"
 ):
     """Connect as root user and drop the test database"""
-
     print("Dropping old test data")
-    print(
-        "Connection URI = postgres://{user}:{pwd}@{host}/postgres".format(
-            user=root_user, pwd="postgres", host=host
-        )
-    )
+
     engine = create_engine(
         "postgres://{user}:{pwd}@{host}/postgres".format(
             user=root_user, pwd="postgres", host=host
@@ -52,12 +47,6 @@ def setup_database(
     if not no_drop:
         try_drop_test_data(user, password, database)
 
-    print(f"Create database {database}")
-    print(
-        "Connection URI = postgres://{user}:{pwd}@{host}/postgres".format(
-            user=root_user, pwd="postgres", host=host
-        )
-    )
     engine = create_engine(
         "postgres://{user}:{pwd}@{host}/postgres".format(
             user=root_user, pwd="postgres", host=host
@@ -77,21 +66,15 @@ def setup_database(
             user_stmt = "CREATE USER {user} WITH PASSWORD '{password}'".format(
                 user=user, password=password
             )
-            print(f"Create user stmt {user_stmt}")
             conn.execute(user_stmt)
 
             perm_stmt = (
                 "GRANT ALL PRIVILEGES ON DATABASE {database} to {user}"
                 "".format(database=database, user=user)
             )
-            print(f"Perm stmt {perm_stmt}")
             conn.execute(perm_stmt)
             conn.execute("commit")
 
-            # alter_stmt = "ALTER USER {user} CREATEROLE" "".format(user=user)
-            # print(f"ALTER stmt {alter_stmt}")
-            # conn.execute(alter_stmt)
-            # conn.execute("commit")
         except Exception as msg:
             logging.warning("Unable to add user:" + str(msg))
     conn.close()
