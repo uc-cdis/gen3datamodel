@@ -251,20 +251,25 @@ toml = ["tomli"]
 
 [[package]]
 name = "dictionaryutils"
-version = "3.4.10"
+version = "3.4.11"
 description = "Python wrapper and metaschema for datadictionary."
 category = "main"
 optional = false
-python-versions = ">=3.9,<4"
-files = [
-    {file = "dictionaryutils-3.4.10.tar.gz", hash = "sha256:5f4ebf1a78fdb97ab7172bdbd574a1756f5689fc72e85d0b298de9419c4e47b7"},
-]
+python-versions = ">=3.9, <4"
+files = []
+develop = false
 
 [package.dependencies]
-cdislogging = ">=1.0.0,<2.0.0"
-jsonschema = ">=2.5,<4"
+cdislogging = "^1.0.0"
+jsonschema = "*"
 PyYAML = "*"
-requests = ">=2.18,<3.0"
+requests = "~=2.18"
+
+[package.source]
+type = "git"
+url = "https://github.com/uc-cdis/dictionaryutils"
+reference = "chore/upgrade-jsonschema"
+resolved_reference = "a42af588411d9aefaf870a2062978c5928d9fd25"
 
 [[package]]
 name = "exceptiongroup"
@@ -347,25 +352,23 @@ files = [
 
 [[package]]
 name = "jsonschema"
-version = "3.2.0"
+version = "4.17.3"
 description = "An implementation of JSON Schema validation for Python"
 category = "main"
 optional = false
-python-versions = "*"
+python-versions = ">=3.7"
 files = [
-    {file = "jsonschema-3.2.0-py2.py3-none-any.whl", hash = "sha256:4e5b3cf8216f577bee9ce139cbe72eca3ea4f292ec60928ff24758ce626cd163"},
-    {file = "jsonschema-3.2.0.tar.gz", hash = "sha256:c8a85b28d377cc7737e46e2d9f2b4f44ee3c0e1deac6bf46ddefc7187d30797a"},
+    {file = "jsonschema-4.17.3-py3-none-any.whl", hash = "sha256:a870ad254da1a8ca84b6a2905cac29d265f805acc57af304784962a2aa6508f6"},
+    {file = "jsonschema-4.17.3.tar.gz", hash = "sha256:0f864437ab8b6076ba6707453ef8f98a6a0d512a80e93f8abdb676f737ecb60d"},
 ]
 
 [package.dependencies]
 attrs = ">=17.4.0"
-pyrsistent = ">=0.14.0"
-setuptools = "*"
-six = ">=1.11.0"
+pyrsistent = ">=0.14.0,<0.17.0 || >0.17.0,<0.17.1 || >0.17.1,<0.17.2 || >0.17.2"
 
 [package.extras]
-format = ["idna", "jsonpointer (>1.13)", "rfc3987", "strict-rfc3339", "webcolors"]
-format-nongpl = ["idna", "jsonpointer (>1.13)", "rfc3339-validator", "rfc3986-validator (>0.1.0)", "webcolors"]
+format = ["fqdn", "idna", "isoduration", "jsonpointer (>1.13)", "rfc3339-validator", "rfc3987", "uri-template", "webcolors (>=1.11)"]
+format-nongpl = ["fqdn", "idna", "isoduration", "jsonpointer (>1.13)", "rfc3339-validator", "rfc3986-validator (>0.1.0)", "uri-template", "webcolors (>=1.11)"]
 
 [[package]]
 name = "mock"
@@ -654,22 +657,6 @@ files = [
 ]
 
 [[package]]
-name = "setuptools"
-version = "70.1.1"
-description = "Easily download, build, install, upgrade, and uninstall Python packages"
-category = "main"
-optional = false
-python-versions = ">=3.8"
-files = [
-    {file = "setuptools-70.1.1-py3-none-any.whl", hash = "sha256:a58a8fde0541dab0419750bcc521fbdf8585f6e5cb41909df3a472ef7b81ca95"},
-    {file = "setuptools-70.1.1.tar.gz", hash = "sha256:937a48c7cdb7a21eb53cd7f9b59e525503aa8abaf3584c730dc5f7a5bec3a650"},
-]
-
-[package.extras]
-docs = ["furo", "jaraco.packaging (>=9.3)", "jaraco.tidelift (>=1.4)", "pygments-github-lexers (==0.0.5)", "pyproject-hooks (!=1.1)", "rst.linker (>=1.9)", "sphinx (>=3.5)", "sphinx-favicon", "sphinx-inline-tabs", "sphinx-lint", "sphinx-notfound-page (>=1,<2)", "sphinx-reredirects", "sphinxcontrib-towncrier"]
-testing = ["build[virtualenv] (>=1.0.3)", "filelock (>=3.4.0)", "importlib-metadata", "ini2toml[lite] (>=0.14)", "jaraco.develop (>=7.21)", "jaraco.envs (>=2.2)", "jaraco.path (>=3.2.0)", "jaraco.test", "mypy (==1.10.0)", "packaging (>=23.2)", "pip (>=19.1)", "pyproject-hooks (!=1.1)", "pytest (>=6,!=8.1.1)", "pytest-checkdocs (>=2.4)", "pytest-cov", "pytest-enabler (>=2.2)", "pytest-home (>=0.5)", "pytest-mypy", "pytest-perf", "pytest-ruff (>=0.3.2)", "pytest-subprocess", "pytest-timeout", "pytest-xdist (>=3)", "tomli", "tomli-w (>=1.0.0)", "virtualenv (>=13.0.0)", "wheel"]
-
-[[package]]
 name = "six"
 version = "1.16.0"
 description = "Python 2 and 3 compatibility utilities"
@@ -790,4 +777,4 @@ testing = ["contextlib2", "pathlib2", "unittest2"]
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.9"
-content-hash = "38fa73f6470f150e19cc9011ada4d84c47bbae5918a129f0376a991afedac995"
+content-hash = "9e4a5c64838403c2089be1a0cf5cf454e3c612be3d1e0160b8ff63356a5d2c97"
