@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-Tests for gdcdatamodel.gdc_postgres_admin module
+Tests for gen3datamodel.gdc_postgres_admin module
 """
 
 import logging
@@ -9,11 +9,6 @@ import unittest
 from gen3datamodel import gdc_postgres_admin as pgadmin
 from gen3datamodel import models
 from sqlalchemy.exc import ProgrammingError
-
-from multiprocessing import (
-    Process,
-    Queue,
-)
 
 from psqlgraph import (
     Edge,
