@@ -645,18 +645,6 @@ socks = ["PySocks (>=1.5.6,!=1.5.7)"]
 use-chardet-on-py3 = ["chardet (>=3.0.2,<6)"]
 
 [[package]]
-name = "rstr"
-version = "2.2.6"
-description = "Generate random strings in Python"
-category = "main"
-optional = false
-python-versions = "*"
-files = [
-    {file = "rstr-2.2.6-py2.py3-none-any.whl", hash = "sha256:3b3ec3bec215a4c7690bc72e1e006ce53a3edad79166dcbdf49bc614caf77f49"},
-    {file = "rstr-2.2.6.tar.gz", hash = "sha256:5dea822326e418e0c9816c9cd14ae9c7be2d4cd4334043c397f202bc2ae2eda4"},
-]
-
-[[package]]
 name = "six"
 version = "1.16.0"
 description = "Python 2 and 3 compatibility utilities"
@@ -777,4 +765,4 @@ testing = ["contextlib2", "pathlib2", "unittest2"]
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.9"
-content-hash = "9e4a5c64838403c2089be1a0cf5cf454e3c612be3d1e0160b8ff63356a5d2c97"
+content-hash = "6b5ff406b04680610f874eee78bc91868e9182ca98b20377cf9c1de3c6e95cf7"
