@@ -1,6 +1,11 @@
-from dictionaryutils import dictionary as gdcdictionary
+import os
+from dictionaryutils import DataDictionary
 import psqlgraph
 import sqlalchemy
+
+MODULE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(__file__)))
+SCHEMA_DIR = os.path.join(os.path.abspath(MODULE_DIR), "gdcdictionary/schemas")
+gdcdictionary = DataDictionary(root_dir=SCHEMA_DIR)
 
 
 class GDCGraphValidator(object):
