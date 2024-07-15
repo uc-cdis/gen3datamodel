@@ -14,10 +14,10 @@ propogate to all code that imports this package and MAY BREAK THINGS.
 - jsm
 
 """
-
+import os
 from cdislogging import get_logger
 from collections import defaultdict
-from dictionaryutils import dictionary
+from dictionaryutils import DataDictionary
 from .misc import FileReport  # noqa
 from sqlalchemy.orm import configure_mappers
 from .versioned_nodes import VersionedNode  # noqa
@@ -28,7 +28,6 @@ from . import notifications
 from . import submission
 
 from sqlalchemy import func, event, and_
-
 from psqlgraph import Node, Edge, pg_property
 
 from sqlalchemy.ext.hybrid import (
@@ -41,8 +40,11 @@ from .indexes import (
     get_secondary_key_indexes,
 )
 
-
 logger = get_logger("gdcdatamodel")
+
+MODULE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(__file__)))
+SCHEMA_DIR = os.path.join(os.path.abspath(MODULE_DIR), "gdcdictionary/schemas")
+dictionary = DataDictionary(root_dir=SCHEMA_DIR)
 
 # Deprecated; used only for logging a deprecation notice
 CACHE_CASES = (
