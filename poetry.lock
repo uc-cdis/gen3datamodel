@@ -251,16 +251,16 @@ files = []
 develop = false
 
 [package.dependencies]
-cdislogging = "^1.0.0"
+cdislogging = "*"
 jsonschema = "4.17.3"
 PyYAML = "*"
-requests = "~=2.18"
+requests = "*"
 
 [package.source]
 type = "git"
 url = "https://github.com/uc-cdis/dictionaryutils"
 reference = "chore/upgrade-jsonschema"
-resolved_reference = "411d382e72204cf555d522c80526fdc975f0bbef"
+resolved_reference = "9f3ba4e9e29b052af2ec26a379c2607919827622"
 
 [[package]]
 name = "exceptiongroup"
@@ -275,6 +275,25 @@ files = [
 
 [package.extras]
 test = ["pytest (>=6)"]
+
+[[package]]
+name = "gdcdictionary"
+version = "2.0.0"
+description = ""
+optional = false
+python-versions = "*"
+files = []
+develop = false
+
+[package.dependencies]
+jsonschema = "*"
+PyYAML = "*"
+
+[package.source]
+type = "git"
+url = "https://github.com/NCI-GDC/gdcdictionary.git"
+reference = "release/py3"
+resolved_reference = "b5db4e815794c0544bbc9f4b6a16fc5b0475363b"
 
 [[package]]
 name = "idna"
@@ -710,4 +729,4 @@ testing = ["contextlib2", "pathlib2", "unittest2"]
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.9"
-content-hash = "386ef216b63f1ed73442fa993286ecfcf2360a439fdfabe778912b03174efe25"
+content-hash = "6b5ff406b04680610f874eee78bc91868e9182ca98b20377cf9c1de3c6e95cf7"

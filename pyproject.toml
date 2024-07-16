@@ -12,6 +12,7 @@ python = "^3.9"
 cdislogging = "*"
 attrs = "==19.3.0"
 dictionaryutils = {git = "https://github.com/uc-cdis/dictionaryutils", branch = "chore/upgrade-jsonschema"}
+gdcdictionary = {git = "https://github.com/NCI-GDC/gdcdictionary.git", rev = "release/py3"}
 jsonschema = "*"
 more-itertools = "==7.2.0"
 zipp = "==0.6.0"
