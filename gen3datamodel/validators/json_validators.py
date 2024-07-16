@@ -1,12 +1,7 @@
-import os
-from dictionaryutils import DataDictionary
+from dictionaryutils import dictionary as gdcdictionary
 from jsonschema import Draft4Validator, FormatChecker
 import logging
 import re
-
-MODULE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(__file__)))
-SCHEMA_DIR = os.path.join(os.path.abspath(MODULE_DIR), "gdcdictionary/schemas")
-gdcdictionary = DataDictionary(root_dir=SCHEMA_DIR)
 
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.INFO)
