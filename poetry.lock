@@ -239,7 +239,7 @@ develop = false
 
 [package.dependencies]
 cdislogging = "*"
-jsonschema = "*"
+jsonschema = "<=4.23.0"
 PyYAML = "*"
 requests = "*"
 
@@ -247,7 +247,7 @@ requests = "*"
 type = "git"
 url = "https://github.com/uc-cdis/dictionaryutils"
 reference = "chore/update-jsonschema"
-resolved_reference = "24825fccf64691a3c90ae0938fdf02962fbbf98c"
+resolved_reference = "ead70ea2c41bfbff6a8dc678eb0b33381caecf4f"
 
 [[package]]
 name = "exceptiongroup"
