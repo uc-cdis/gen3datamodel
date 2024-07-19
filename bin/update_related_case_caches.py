@@ -11,7 +11,7 @@ import argparse
 import getpass
 import logging
 
-from gdcdatamodel import models as md
+from gen3datamodel import models as md
 from psqlgraph import PsqlGraphDriver
 
 
