@@ -1,6 +1,8 @@
 Gen3 Data Model
 ==============
 
+[![Coverage Status](https://coveralls.io/repos/github/uc-cdis/gen3datamodel/badge.svg?branch=chore/update-tests)](https://coveralls.io/github/uc-cdis/gen3datamodel?branch=chore/update-tests)
+
 Repo to keep information about the Gen3 data model design.
 
 # Installation
