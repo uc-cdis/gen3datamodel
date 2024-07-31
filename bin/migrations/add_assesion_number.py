@@ -1,7 +1,7 @@
 import mappings
 import argparse
 from psqlgraph import PsqlGraphDriver
-from gdcdatamodel.models import *
+from gen3datamodel.models import *
 
 mapping = mappings.Mapping()
 

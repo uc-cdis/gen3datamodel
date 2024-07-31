@@ -1,12 +1,12 @@
 """
-gdcdatamodel.migrations.update_case_cache
+gen3datamodel.migrations.update_case_cache
 --------------------
 
 Functionality to fix stale case caches in _related_cases edge tables.
 
 """
 
-from gdcdatamodel.models import Case
+from gen3datamodel.models import Case
 
 
 def update_related_cases(driver, node_id):
