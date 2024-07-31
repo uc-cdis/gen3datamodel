@@ -4,11 +4,10 @@ from gen3datamodel.validators import GDCJSONValidator, GDCGraphValidator
 from psqlgraph import PsqlGraphDriver
 from gen3datamodel.models import *
 
+from conftest import DB_USER, DB_PASSWORD, DB_TABLE
+
 host = "localhost"
-user = "postgres"
-password = "postgres"
-database = "gen3datamodel_test"
-g = PsqlGraphDriver(host, user, password, database)
+g = PsqlGraphDriver(host, DB_USER, DB_PASSWORD, DB_TABLE)
 
 
 class MockSubmissionEntity(object):

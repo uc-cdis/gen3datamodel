@@ -6,15 +6,16 @@ Tests for gen3datamodel.gdc_postgres_admin module
 import logging
 import unittest
 
-from gen3datamodel import gdc_postgres_admin as pgadmin
-from gen3datamodel import models
 from sqlalchemy.exc import ProgrammingError
-
 from psqlgraph import (
     Edge,
     Node,
     PsqlGraphDriver,
 )
+
+from gen3datamodel import gdc_postgres_admin as pgadmin
+from gen3datamodel import models
+from conftest import DB_USER, DB_PASSWORD, DB_TABLE
 
 logging.basicConfig()
 
@@ -25,9 +26,9 @@ class TestGDCPostgresAdmin(unittest.TestCase):
     logger.setLevel(logging.INFO)
 
     host = "localhost"
-    user = "postgres"
-    password = "postgres"
-    database = "gen3datamodel_test"
+    user = DB_USER
+    password = DB_PASSWORD
+    database = DB_TABLE
 
     base_args = [
         "-H",
