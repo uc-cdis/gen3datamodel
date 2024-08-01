@@ -19,7 +19,7 @@ It's helpful to examine the relationships between nodes visually.  One
 way to do this is to run an Jupyter notebook with a Python2 kernal.
 When used with Graphviz's SVG support, you can view a graphical
 representation of a subgraph directly in a REPL. To do so, install the
-`dev-requirements.txt` dependencies.  There is an example Jupyter
+`pyproject.toml` dependencies.  There is an example Jupyter
 notebook at `examples/jupyter_example.ipynb` (replicated in
 `examples/jupyter_example.py` for clarity)
 

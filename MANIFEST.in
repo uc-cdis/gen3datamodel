@@ -1,5 +1,5 @@
 include LICENSE
 include *.avsc
 global-include *.avsc
-recursive-include gdcdatamodel *
-graft gdcdatamodel
+recursive-include gen3datamodel *
+graft gen3datamodel

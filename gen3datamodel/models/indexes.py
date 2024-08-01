@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-"""gdcdatamodel.models.indexes
+"""gen3datamodel.models.indexes
 ----------------------------------
 
 
@@ -22,7 +22,7 @@ logger = get_logger(__name__)
 def index_name(cls, description):
     """Standardize index naming.  Because of PostgreSQL's name character
     limit, this follows a similar scheme to shortening edge names in
-    `gdcdatamodel.generate_edge_tablename()`
+    `gen3datamodel.generate_edge_tablename()`
 
     For long names, take the first 8 characters of a hash of the full,
     un-truncated table name *before* we truncate and prepend this to
