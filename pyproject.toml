@@ -12,7 +12,9 @@ python = "^3.9"
 cdislogging = "*"
 attrs = "==19.3.0"
 dictionaryutils = "==3.4.10"
-gdcdictionary = {git = "https://github.com/NCI-GDC/gdcdictionary.git", rev = "release/py3"}
+# set 'develop = true' to prevent over-writing by 'gen3dictionary', similar to
+# https://github.com/uc-cdis/gen3datamodel/blob/190f99885c660a2971ec64522168548e19bea512/Pipfile#L16
+gdcdictionary = {git = "https://github.com/NCI-GDC/gdcdictionary.git", rev = "release/py3", develop = true}
 jsonschema = "~=3.2"
 more-itertools = "==7.2.0"
 zipp = "==0.6.0"
@@ -27,6 +29,7 @@ rstr = "==2.2.6"
 
 [tool.poetry.dev-dependencies]
 pytest = ">=3.2.3"
+pytest-cov = "^2.5.1"
 mock = "*"
 cdisutilstest = { git = "https://github.com/uc-cdis/cdisutils-test.git", tag = "1.0.0" }
 

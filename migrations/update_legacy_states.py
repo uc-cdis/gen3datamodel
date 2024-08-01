@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-"""gdcdatamodel.migrations.update_legacy_states
+"""gen3datamodel.migrations.update_legacy_states
 ----------------------------------
 
 File nodes from legacy projects were given a `state` that represents
@@ -38,7 +38,7 @@ import logging
 
 from sqlalchemy import not_, or_, and_
 from psqlgraph import Node, PsqlGraphDriver
-from gdcdatamodel import models as md
+from gen3datamodel import models as md
 from multiprocessing import Process, cpu_count, Queue
 from collections import namedtuple
 

@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 from psqlgraph import Node, Edge
-from gdcdatamodel import models as md
+from gen3datamodel import models as md
 
 
 CACHE_EDGES = {

@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-gdcdatamodel.models.submission
+gen3datamodel.models.submission
 ----------------------------------
 
 Models for submission TransactionLogs
