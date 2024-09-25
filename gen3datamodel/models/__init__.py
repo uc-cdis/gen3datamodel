@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-"""gdcdatamodel.models
+"""gen3datamodel.models
 ----------------------------------
 
 This module defines all of the ORM classes for the GDC datamodel
@@ -42,7 +42,7 @@ from .indexes import (
 )
 
 
-logger = get_logger("gdcdatamodel")
+logger = get_logger("gen3datamodel")
 
 # Deprecated; used only for logging a deprecation notice
 CACHE_CASES = (
@@ -76,7 +76,7 @@ def remove_spaces(s):
 
 def register_class(cls):
     """Register a class in `globals`.  This allows us to import the ORM
-    classes from :mod:`gdcdatamodel.models`
+    classes from :mod:`gen3datamodel.models`
 
     :param cls: Any class object
     :returns: None
@@ -378,7 +378,11 @@ def generate_edge_tablename(src_label, label, dst_label):
         oldname = tablename
         logger.debug("Edge tablename {} too long, shortening".format(oldname))
         tablename = "edge_{}_{}".format(
-            str(hashlib.md5(tablename.encode("utf-8")).hexdigest())[:8],
+            str(
+                hashlib.md5(
+                    tablename.encode("utf-8"), usedforsecurity=False
+                ).hexdigest()
+            )[:8],
             "{}{}{}".format(
                 "".join([a[:2] for a in src_label.split("_")])[:10],
                 "".join([a[:2] for a in label.split("_")])[:7],

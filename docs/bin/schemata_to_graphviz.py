@@ -1,5 +1,5 @@
 import os
-from gdcdatamodel import models as m
+from gen3datamodel import models as m
 from graphviz import Digraph
 
 

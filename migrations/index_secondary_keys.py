@@ -13,8 +13,8 @@ the following indexes per secondary key
 """
 
 from psqlgraph import Node
-from gdcdatamodel.models import get_secondary_key_indexes
-from gdcdatamodel.models.submission import TransactionLog
+from gen3datamodel.models import get_secondary_key_indexes
+from gen3datamodel.models.submission import TransactionLog
 from sqlalchemy import Index
 
 

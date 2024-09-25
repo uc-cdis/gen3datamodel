@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 """
-gdcdatamodel.test.conftest
+gen3datamodel.test.conftest
 ----------------------------------
 
-pytest setup for gdcdatamodel tests
+pytest setup for gen3datamodel tests
 """
 
 from psqlgraph import PsqlGraphDriver
@@ -11,13 +11,18 @@ from psqlgraph import PsqlGraphDriver
 import pytest
 
 
+DB_USER = "postgres"
+DB_PASSWORD = "postgres"
+DB_TABLE = "gen3datamodel_test"
+
+
 @pytest.fixture(scope="session")
 def db_config():
     return {
         "host": "localhost",
-        "user": "test",
-        "password": "test",
-        "database": "automated_test",
+        "user": DB_USER,
+        "password": DB_PASSWORD,
+        "database": DB_TABLE,
     }
 
 

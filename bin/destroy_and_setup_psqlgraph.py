@@ -2,16 +2,20 @@ import argparse
 from sqlalchemy import create_engine
 import logging
 
-from gdcdatamodel.models import *
+from gen3datamodel.models import *
 from psqlgraph import create_all, Node, Edge
 
 
-def try_drop_test_data(user, database, root_user="postgres", host=""):
-
+def try_drop_test_data(
+    user, password, database, root_user="postgres", host="localhost"
+):
+    """Connect as root user and drop the test database"""
     print("Dropping old test data")
 
     engine = create_engine(
-        "postgres://{user}@{host}/postgres".format(user=root_user, host=host)
+        "postgres://{user}:{pwd}@{host}/postgres".format(
+            user=root_user, pwd="postgres", host=host
+        )
     )
 
     conn = engine.connect()
@@ -21,7 +25,7 @@ def try_drop_test_data(user, database, root_user="postgres", host=""):
         create_stmt = 'DROP DATABASE "{database}"'.format(database=database)
         conn.execute(create_stmt)
     except Exception as msg:
-        logging.warn("Unable to drop test data:" + str(msg))
+        logging.warning("Unable to drop test data:" + str(msg))
 
     conn.close()
 
@@ -31,7 +35,7 @@ def setup_database(
     password,
     database,
     root_user="postgres",
-    host="",
+    host="localhost",
     no_drop=False,
     no_user=False,
 ):
@@ -41,10 +45,12 @@ def setup_database(
     print("Setting up test database")
 
     if not no_drop:
-        try_drop_test_data(user, database)
+        try_drop_test_data(user, password, database)
 
     engine = create_engine(
-        "postgres://{user}@{host}/postgres".format(user=root_user, host=host)
+        "postgres://{user}:{pwd}@{host}/postgres".format(
+            user=root_user, pwd="postgres", host=host
+        )
     )
     conn = engine.connect()
     conn.execute("commit")
@@ -53,7 +59,7 @@ def setup_database(
     try:
         conn.execute(create_stmt)
     except Exception as msg:
-        logging.warn("Unable to create database: {}".format(msg))
+        logging.warning("Unable to create database: {}".format(msg))
 
     if not no_user:
         try:
@@ -63,13 +69,14 @@ def setup_database(
             conn.execute(user_stmt)
 
             perm_stmt = (
-                "GRANT ALL PRIVILEGES ON DATABASE {database} to {password}"
-                "".format(database=database, password=password)
+                "GRANT ALL PRIVILEGES ON DATABASE {database} to {user}"
+                "".format(database=database, user=user)
             )
             conn.execute(perm_stmt)
             conn.execute("commit")
+
         except Exception as msg:
-            logging.warn("Unable to add user:" + str(msg))
+            logging.warning("Unable to add user:" + str(msg))
     conn.close()
 
 
@@ -96,20 +103,20 @@ if __name__ == "__main__":
         "--host", type=str, action="store", default="localhost", help="psql-server host"
     )
     parser.add_argument(
-        "--user", type=str, action="store", default="test", help="psql test user"
+        "--user", type=str, action="store", default="postgres", help="psql test user"
     )
     parser.add_argument(
         "--password",
         type=str,
         action="store",
-        default="test",
+        default="postgres",
         help="psql test password",
     )
     parser.add_argument(
         "--database",
         type=str,
         action="store",
-        default="automated_test",
+        default="gen3datamodel_test",
         help="psql test database",
     )
     parser.add_argument(

@@ -1,7 +1,7 @@
 import unittest
 import logging
 from psqlgraph.exc import ValidationError
-from gdcdatamodel import models as md
+from gen3datamodel import models as md
 
 logging.basicConfig(level=logging.INFO)
 

@@ -1,14 +1,13 @@
 import unittest
 import uuid
-from gdcdatamodel.validators import GDCJSONValidator, GDCGraphValidator
+from gen3datamodel.validators import GDCJSONValidator, GDCGraphValidator
 from psqlgraph import PsqlGraphDriver
-from gdcdatamodel.models import *
+from gen3datamodel.models import *
+
+from conftest import DB_USER, DB_PASSWORD, DB_TABLE
 
 host = "localhost"
-user = "test"
-password = "test"
-database = "automated_test"
-g = PsqlGraphDriver(host, user, password, database)
+g = PsqlGraphDriver(host, DB_USER, DB_PASSWORD, DB_TABLE)
 
 
 class MockSubmissionEntity(object):

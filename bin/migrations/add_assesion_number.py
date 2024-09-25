@@ -1,7 +1,7 @@
 import mappings
 import argparse
 from psqlgraph import PsqlGraphDriver
-from gdcdatamodel.models import *
+from gen3datamodel.models import *
 
 mapping = mappings.Mapping()
 
@@ -43,7 +43,7 @@ if __name__ == "__main__":
         "--database",
         type=str,
         action="store",
-        default="automated_test",
+        default="postgres",
         help="psql test database",
     )
 

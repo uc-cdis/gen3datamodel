@@ -1,5 +1,5 @@
 To generate the graphviz documentation you will need the
-`gdcdatamodel` installed in your environment and you will need
+`gen3datamodel` installed in your environment and you will need
 [Graphviz](www.graphviz.org) installed (`brew install graphviz` should
 do it on OSX).
 
@@ -18,7 +18,7 @@ pathology_report
 sample
 tag
 ...
-graphviz output to ~/gdcdatamodel/docs/viz/gdc_data_model.gv
+graphviz output to ~/gen3datamodel/docs/viz/gdc_data_model.gv
 ```
 
 And there should be a graphviz output file and a PDF document rendered
