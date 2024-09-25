@@ -6,7 +6,7 @@ migrations.notifications
 Create `notifications` table.
 """
 
-from gdcdatamodel.models.notifications import Base, Notification
+from gen3datamodel.models.notifications import Base, Notification
 
 import logging
 

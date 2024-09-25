@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-"""gdcdatamodel.models
+"""gen3datamodel.models
 ----------------------------------
 
 This module defines all of the ORM classes for the GDC datamodel
@@ -39,7 +39,7 @@ from .indexes import (
     get_secondary_key_indexes,
 )
 
-logger = get_logger("gdcdatamodel")
+logger = get_logger("gen3datamodel")
 
 # Deprecated; used only for logging a deprecation notice
 CACHE_CASES = (
@@ -73,7 +73,7 @@ def remove_spaces(s):
 
 def register_class(cls):
     """Register a class in `globals`.  This allows us to import the ORM
-    classes from :mod:`gdcdatamodel.models`
+    classes from :mod:`gen3datamodel.models`
 
     :param cls: Any class object
     :returns: None

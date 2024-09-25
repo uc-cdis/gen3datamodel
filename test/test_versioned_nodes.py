@@ -2,12 +2,10 @@ from gen3datamodel import models as md
 from psqlgraph import Node, Edge, PsqlGraphDriver
 
 import unittest
+from conftest import DB_USER, DB_PASSWORD, DB_TABLE
 
 host = "localhost"
-user = "postgres"
-password = "postgres"
-database = "gen3datamodel_test"
-g = PsqlGraphDriver(host, user, password, database)
+g = PsqlGraphDriver(host, DB_USER, DB_PASSWORD, DB_TABLE)
 
 
 class TestValidators(unittest.TestCase):
