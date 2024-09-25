@@ -14,7 +14,6 @@ propogate to all code that imports this package and MAY BREAK THINGS.
 - jsm
 
 """
-
 from cdislogging import get_logger
 from collections import defaultdict
 from dictionaryutils import dictionary
@@ -28,7 +27,6 @@ from . import notifications
 from . import submission
 
 from sqlalchemy import func, event, and_
-
 from psqlgraph import Node, Edge, pg_property
 
 from sqlalchemy.ext.hybrid import (
@@ -40,7 +38,6 @@ from .indexes import (
     cls_add_indexes,
     get_secondary_key_indexes,
 )
-
 
 logger = get_logger("gen3datamodel")
 
