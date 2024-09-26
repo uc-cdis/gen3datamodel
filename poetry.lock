@@ -282,8 +282,8 @@ requests = "*"
 [package.source]
 type = "git"
 url = "https://github.com/uc-cdis/dictionaryutils"
-reference = "chore/update-jsonschema"
-resolved_reference = "d1eee48ed69e7ced35a86a182951a4b5f4609f7e"
+reference = "3.4.11"
+resolved_reference = "cbac4bf51febc64eab4875f84ca6cb15c8b4718e"
 
 [[package]]
 name = "exceptiongroup"
@@ -863,4 +863,4 @@ files = [
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.9"
-content-hash = "7cf39ed9932b236fa300ad3a0254d7a67a20e8b201a5ba5cc253f99d5fbf34fc"
+content-hash = "364df350a99f4b12abda1ee7cfd18941e2f52fca711127fb048966c0ccf0a780"
