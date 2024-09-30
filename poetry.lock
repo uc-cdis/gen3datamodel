@@ -310,8 +310,8 @@ PyYAML = "*"
 [package.source]
 type = "git"
 url = "https://github.com/NCI-GDC/gdcdictionary.git"
-reference = "release/py3"
-resolved_reference = "b5db4e815794c0544bbc9f4b6a16fc5b0475363b"
+reference = "2.0.0"
+resolved_reference = "0427dc737a7cc165868f3d065529d20a68a20ac1"
 
 [[package]]
 name = "idna"
@@ -858,4 +858,4 @@ files = [
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.9"
-content-hash = "55f732d5cca47480042eb649d7e5a6f5672b221025010734ee9de4a40b269e0b"
+content-hash = "5dae29f04c69d8ddf9a8badf6c36ad0c5e64872c6f59b78bd7849245545ff299"
