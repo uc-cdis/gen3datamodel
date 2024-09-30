@@ -1,7 +1,7 @@
 [tool.poetry]
 name = "gen3datamodel"
 homepage = "https://gen3.org/"
-version = "3.2.0"
+version = "3.2.2"
 description = ""
 authors = ["CTDS UChicago <cdis@uchicago.edu>"]
 license = "Apache-2.0"
@@ -10,10 +10,7 @@ repository = "https://github.com/uc-cdis/gen3datamodel"
 [tool.poetry.dependencies]
 python = "^3.9"
 cdislogging = "*"
-dictionaryutils = {git = "https://github.com/uc-cdis/dictionaryutils", rev = "3.4.11" }
-# set 'develop = true' to prevent over-writing by 'gen3dictionary', similar to
-# https://github.com/uc-cdis/gen3datamodel/blob/190f99885c660a2971ec64522168548e19bea512/Pipfile#L16
-gdcdictionary = {git = "https://github.com/NCI-GDC/gdcdictionary.git", rev = "release/py3", develop = true}
+dictionaryutils = ">=3.4.11"
 jsonschema = "*"
 pyrsistent = "==0.15.4"
 pytz = "*"
