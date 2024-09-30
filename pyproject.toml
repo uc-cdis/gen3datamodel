@@ -1,7 +1,7 @@
 [tool.poetry]
 name = "gen3datamodel"
 homepage = "https://gen3.org/"
-version = "3.2.0"
+version = "3.2.2"
 description = ""
 authors = ["CTDS UChicago <cdis@uchicago.edu>"]
 license = "Apache-2.0"
