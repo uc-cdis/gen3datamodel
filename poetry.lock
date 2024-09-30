@@ -269,21 +269,16 @@ name = "dictionaryutils"
 version = "3.4.11"
 description = "Python wrapper and metaschema for datadictionary."
 optional = false
-python-versions = ">=3.9, <4"
-files = []
-develop = false
+python-versions = "<4,>=3.9"
+files = [
+    {file = "dictionaryutils-3.4.11.tar.gz", hash = "sha256:a63ae34b4c0130cd94e4ca685cbb18155c225f9bface32ed1d503393d0dd39cf"},
+]
 
 [package.dependencies]
 cdislogging = "*"
 jsonschema = "<=4.23.0"
 PyYAML = "*"
 requests = "*"
-
-[package.source]
-type = "git"
-url = "https://github.com/uc-cdis/dictionaryutils"
-reference = "3.4.11"
-resolved_reference = "cbac4bf51febc64eab4875f84ca6cb15c8b4718e"
 
 [[package]]
 name = "exceptiongroup"
@@ -863,4 +858,4 @@ files = [
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.9"
-content-hash = "364df350a99f4b12abda1ee7cfd18941e2f52fca711127fb048966c0ccf0a780"
+content-hash = "55f732d5cca47480042eb649d7e5a6f5672b221025010734ee9de4a40b269e0b"
