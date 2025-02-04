@@ -73,4 +73,4 @@ OK
 
 # Contributing
 
-Read how to contribute [here](https://github.com/NCI-GDC/gdcapi/blob/master/CONTRIBUTING.md)
+Read how to contribute [here](https://docs.gen3.org/gen3-resources/developer-guide/contribute/)
