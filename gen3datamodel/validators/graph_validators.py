@@ -70,6 +70,7 @@ class GDCLinksValidator(object):
             )
 
         result = {"length": num_of_edges, "name": ", ".join(schema_links)}
+        return result
 
     def validate_edge(self, link_sub_schema, entity):
         association = link_sub_schema["name"]
