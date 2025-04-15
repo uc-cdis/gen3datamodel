@@ -10,7 +10,8 @@ repository = "https://github.com/uc-cdis/gen3datamodel"
 [tool.poetry.dependencies]
 python = "^3.9"
 cdislogging = "*"
-dictionaryutils = ">=3.4.11"
+# dictionaryutils = { git = "https://github.com/uc-cdis/dictionaryutils.git", tag = "3.4.12" }
+dictionaryutils = { git = "https://github.com/uc-cdis/dictionaryutils.git", branch = "chore/use-gen3dictionary" }
 jsonschema = "*"
 pyrsistent = "==0.15.4"
 pytz = "*"

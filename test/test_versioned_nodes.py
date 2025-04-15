@@ -10,29 +10,27 @@ g = PsqlGraphDriver(host, DB_USER, DB_PASSWORD, DB_TABLE)
 
 class TestValidators(unittest.TestCase):
     @staticmethod
-    def new_portion():
-        portion = md.Portion(
+    def new_sample():
+        sample = md.Sample(
             **{
                 "node_id": "case1",
                 "is_ffpe": False,
-                "portion_number": "01",
+                "sample_volume": 100,
                 "project_id": "CGCI-BLGSP",
                 "state": "validated",
-                "submitter_id": "PORTION-1",
-                "weight": 54.0,
+                "submitter_id": "sample-1",
+                "initial_weight": 54.0,
             }
         )
-        portion.acl = ["acl1"]
-        portion.sysan.update({"key1": "val1"})
-        return portion
+        sample.acl = ["acl1"]
+        sample.sysan.update({"key1": "val1"})
+        return sample
 
     @staticmethod
-    def new_analyte():
-        return md.Analyte(
+    def new_aliquot():
+        return md.Aliquot(
             **{
-                "node_id": "analyte1",
-                "analyte_type": "Repli-G (Qiagen) DNA",
-                "analyte_type_id": "W",
+                "node_id": "aliquot1",
                 "project_id": "CGCI-BLGSP",
                 "state": "validated",
                 "submitter_id": "TCGA-AR-A1AR-01A-31W",
@@ -61,14 +59,14 @@ class TestValidators(unittest.TestCase):
 
     def test_round_trip(self):
         with g.session_scope() as session:
-            portion = self.new_portion()
-            analyte = self.new_analyte()
-            portion.analytes = [analyte]
-            session.add(portion)
+            sample = self.new_sample()
+            aliquot = self.new_aliquot()
+            sample.aliquots = [aliquot]
+            session.add(sample)
 
         with g.session_scope() as session:
-            portion = g.nodes(md.Portion).one()
-            v_node = md.VersionedNode.clone(portion)
+            sample = g.nodes(md.Sample).one()
+            v_node = md.VersionedNode.clone(sample)
             session.add(v_node)
 
         with g.session_scope():
@@ -79,28 +77,28 @@ class TestValidators(unittest.TestCase):
         self.assertEqual(v_node.properties["state"], "validated")
         self.assertEqual(v_node.system_annotations, {"key1": "val1"})
         self.assertEqual(v_node.acl, ["acl1"])
-        self.assertEqual(v_node.neighbors, ["analyte1"])
+        self.assertEqual(v_node.neighbors, ["aliquot1"])
         self.assertIsNotNone(v_node.versioned)
         self.assertIsNotNone(v_node.key)
 
     def test_versions_property(self):
         with g.session_scope() as session:
-            portion = self.new_portion()
-            analyte = self.new_analyte()
-            portion.analytes = [analyte]
-            session.add(portion)
+            sample = self.new_sample()
+            aliquot = self.new_aliquot()
+            sample.aliquots = [aliquot]
+            session.add(sample)
 
         with g.session_scope() as session:
-            portion = g.nodes(md.Portion).one()
-            v_node = md.VersionedNode.clone(portion)
+            sample = g.nodes(md.Sample).one()
+            v_node = md.VersionedNode.clone(sample)
             session.add(v_node)
 
         with g.session_scope():
-            portion = g.nodes(md.Portion).one()
-            portion._versions.one()
+            sample = g.nodes(md.Sample).one()
+            sample._versions.one()
 
         with self.assertRaises(RuntimeError):
-            portion._versions.one()
+            sample._versions.one()
 
         with g.session_scope() as s:
-            portion.get_versions(s).one()
+            sample.get_versions(s).one()

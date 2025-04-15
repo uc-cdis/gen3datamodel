@@ -8,15 +8,15 @@ logging.basicConfig(level=logging.INFO)
 
 class TestDataModel(unittest.TestCase):
     def test_type_validation(self):
-        f = md.File()
+        d = md.Diagnosis()
         with self.assertRaises(ValidationError):
-            f.file_size = "0"
-        f.file_size = 0
+            d.lymph_nodes_positive = "five"
+        d.lymph_nodes_positive = 0
 
-        f = md.File()
+        d = md.Diagnosis()
         with self.assertRaises(ValidationError):
-            f.file_name = 0
-        f.file_name = "0"
+            d.morphology = 0
+        d.morphology = "0"
 
         s = md.Sample()
         with self.assertRaises(ValidationError):
