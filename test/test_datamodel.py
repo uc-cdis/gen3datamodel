@@ -8,10 +8,10 @@ logging.basicConfig(level=logging.INFO)
 
 class TestDataModel(unittest.TestCase):
     def test_type_validation(self):
-        d = md.Diagnosis()
+        r = md.SubmittedAlignedReads()
         with self.assertRaises(ValidationError):
-            d.lymph_nodes_positive = "five"
-        d.lymph_nodes_positive = 0
+            r.file_size = "0"
+        r.file_size = 0
 
         d = md.Diagnosis()
         with self.assertRaises(ValidationError):
