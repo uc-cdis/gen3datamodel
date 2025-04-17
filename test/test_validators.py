@@ -43,7 +43,7 @@ class TestValidators(unittest.TestCase):
         conn.close()
 
     def test_json_validator_with_insufficient_properties(self):
-        self.entities[0].doc = {"type": "aliquot", "centers": {"submitter_id": "test"}}
+        self.entities[0].doc = {"type": "aliquot", "samples": {"submitter_id": "test"}}
         self.json_validator.record_errors(self.entities)
         self.assertEqual(self.entities[0].errors[0]["keys"], ["submitter_id"])
         self.assertEqual(1, len(self.entities[0].errors))
@@ -58,7 +58,7 @@ class TestValidators(unittest.TestCase):
         self.entities[0].doc = {
             "type": "aliquot",
             "submitter_id": 1,
-            "centers": {"submitter_id": "test"},
+            "samples": {"submitter_id": "test"},
         }
         self.json_validator.record_errors(self.entities)
         self.assertEqual(["submitter_id"], self.entities[0].errors[0]["keys"])
@@ -69,7 +69,7 @@ class TestValidators(unittest.TestCase):
             "type": "aliquot",
             "submitter_id": 1,
             "test": "test",
-            "centers": {"submitter_id": "test"},
+            "samples": {"submitter_id": "test"},
         }
         self.json_validator.record_errors(self.entities)
         self.assertEqual(2, len(self.entities[0].errors))
@@ -78,23 +78,23 @@ class TestValidators(unittest.TestCase):
         self.entities[0].doc = {
             "type": "aliquot",
             "submitter_id": "test",
-            "centers": {"submitter_id": True},
+            "samples": {"submitter_id": True},
         }
         self.json_validator.record_errors(self.entities)
-        self.assertEqual(["centers"], self.entities[0].errors[0]["keys"])
+        self.assertEqual(["samples"], self.entities[0].errors[0]["keys"])
 
     def test_json_validator_with_multiple_entities(self):
         self.entities[0].doc = {
             "type": "aliquot",
             "submitter_id": 1,
             "test": "test",
-            "centers": {"submitter_id": "test"},
+            "samples": {"submitter_id": "test"},
         }
         entity = MockSubmissionEntity()
         entity.doc = {
             "type": "aliquot",
             "submitter_id": "test",
-            "centers": {"submitter_id": "test"},
+            "samples": {"submitter_id": "test"},
         }
         self.entities.append(entity)
 
@@ -128,39 +128,40 @@ class TestValidators(unittest.TestCase):
                 "links",
                 [
                     {
-                        "name": "analytes",
+                        "name": "samples",
                         "backref": "aliquots",
                         "label": "derived_from",
                         "multiplicity": "many_to_one",
-                        "target_type": "analyte",
+                        "target_type": "sample",
                         "required": True,
                     }
                 ],
             )
             self.graph_validator.record_errors(g, self.entities)
-            self.assertEqual(["analytes"], self.entities[0].errors[0]["keys"])
+            self.assertEqual(["samples"], self.entities[0].errors[0]["keys"])
 
     def test_graph_validator_with_exclusive_link(self):
         with g.session_scope() as session:
-            analyte = self.create_node(
+            submitted_aligned_reads = self.create_node(
                 {
-                    "type": "analyte",
+                    "type": "submitted_aligned_reads",
                     "props": {
-                        "submitter_id": "test",
-                        "analyte_type_id": "D",
-                        "analyte_type": "DNA",
+                        "project_id": "test",
+                        "file_state": "registered",
+                        "file_name": "test_file",
                     },
                     "edges": {},
                 },
                 session,
             )
-            sample = self.create_node(
+
+            submitted_unaligned_reads = self.create_node(
                 {
-                    "type": "sample",
+                    "type": "submitted_unaligned_reads",
                     "props": {
-                        "submitter_id": "test",
-                        "sample_type": "DNA",
-                        "sample_type_id": "01",
+                        "project_id": "test",
+                        "file_state": "uploading",
+                        "file_name": "other_file",
                     },
                     "edges": {},
                 },
@@ -169,18 +170,22 @@ class TestValidators(unittest.TestCase):
 
             node = self.create_node(
                 {
-                    "type": "aliquot",
-                    "props": {"submitter_id": "test"},
+                    "type": "read_group_qc",
+                    "props": {"project_id": "test"},
                     "edges": {
-                        "analytes": [analyte.node_id],
-                        "samples": [sample.node_id],
+                        "submitted_aligned_reads_files": [
+                            submitted_aligned_reads.node_id
+                        ],
+                        "submitted_unaligned_reads_files": [
+                            submitted_unaligned_reads.node_id
+                        ],
                     },
                 },
                 session,
             )
             self.entities[0].node = node
             self.update_schema(
-                "aliquot",
+                "read_group",
                 "links",
                 [
                     {
@@ -188,18 +193,18 @@ class TestValidators(unittest.TestCase):
                         "required": True,
                         "subgroup": [
                             {
-                                "name": "analytes",
-                                "backref": "aliquots",
+                                "name": "submitted_aligned_reads",
+                                "backref": "read_groups",
                                 "label": "derived_from",
                                 "multiplicity": "many_to_one",
-                                "target_type": "analyte",
+                                "target_type": "submitted_aligned_read",
                             },
                             {
-                                "name": "samples",
-                                "backref": "aliquots",
+                                "name": "submitted_unaligned_reads",
+                                "backref": "read_groups",
                                 "label": "derived_from",
                                 "multiplicity": "many_to_one",
-                                "target_type": "sample",
+                                "target_type": "submitted_unaligned_read",
                             },
                         ],
                     }
@@ -207,31 +212,32 @@ class TestValidators(unittest.TestCase):
             )
             self.graph_validator.record_errors(g, self.entities)
             self.assertEqual(
-                ["analytes", "samples"], self.entities[0].errors[0]["keys"]
+                ["submitted_aligned_reads_files", "submitted_unaligned_reads_files"],
+                self.entities[0].errors[0]["keys"],
             )
 
     def test_graph_validator_with_wrong_multiplicity(self):
         with g.session_scope() as session:
-            analyte = self.create_node(
+            sample = self.create_node(
                 {
-                    "type": "analyte",
+                    "type": "sample",
                     "props": {
                         "submitter_id": "test",
-                        "analyte_type_id": "D",
-                        "analyte_type": "DNA",
+                        "freezing_method": "plate",
+                        "days_to_collection": 5,
                     },
                     "edges": {},
                 },
                 session,
             )
 
-            analyte_b = self.create_node(
+            sample_b = self.create_node(
                 {
-                    "type": "analyte",
+                    "type": "sample",
                     "props": {
                         "submitter_id": "testb",
-                        "analyte_type_id": "H",
-                        "analyte_type": "RNA",
+                        "freezing_method": "plate",
+                        "days_to_collection": 6,
                     },
                     "edges": {},
                 },
@@ -242,7 +248,7 @@ class TestValidators(unittest.TestCase):
                 {
                     "type": "aliquot",
                     "props": {"submitter_id": "test"},
-                    "edges": {"analytes": [analyte.node_id, analyte_b.node_id]},
+                    "edges": {"samples": [sample.node_id, sample_b.node_id]},
                 },
                 session,
             )
@@ -255,13 +261,6 @@ class TestValidators(unittest.TestCase):
                         "exclusive": False,
                         "required": True,
                         "subgroup": [
-                            {
-                                "name": "analytes",
-                                "backref": "aliquots",
-                                "label": "derived_from",
-                                "multiplicity": "many_to_one",
-                                "target_type": "analyte",
-                            },
                             {
                                 "name": "samples",
                                 "backref": "aliquots",
@@ -274,17 +273,17 @@ class TestValidators(unittest.TestCase):
                 ],
             )
             self.graph_validator.record_errors(g, self.entities)
-            self.assertEqual(["analytes"], self.entities[0].errors[0]["keys"])
+            self.assertEqual(["samples"], self.entities[0].errors[0]["keys"])
 
     def test_graph_validator_with_correct_node(self):
         with g.session_scope() as session:
-            analyte = self.create_node(
+            sample = self.create_node(
                 {
-                    "type": "analyte",
+                    "type": "sample",
                     "props": {
                         "submitter_id": "test",
-                        "analyte_type_id": "D",
-                        "analyte_type": "DNA",
+                        "days_to_collection": 5,
+                        "freezing_method": "plate",
                     },
                     "edges": {},
                 },
@@ -295,7 +294,7 @@ class TestValidators(unittest.TestCase):
                 {
                     "type": "aliquot",
                     "props": {"submitter_id": "test"},
-                    "edges": {"analytes": [analyte.node_id]},
+                    "edges": {"samples": [sample.node_id]},
                 },
                 session,
             )
@@ -308,13 +307,6 @@ class TestValidators(unittest.TestCase):
                         "exclusive": False,
                         "required": True,
                         "subgroup": [
-                            {
-                                "name": "analytes",
-                                "backref": "aliquots",
-                                "label": "derived_from",
-                                "multiplicity": "many_to_one",
-                                "target_type": "analyte",
-                            },
                             {
                                 "name": "samples",
                                 "backref": "aliquots",
