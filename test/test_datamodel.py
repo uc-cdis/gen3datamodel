@@ -8,15 +8,15 @@ logging.basicConfig(level=logging.INFO)
 
 class TestDataModel(unittest.TestCase):
     def test_type_validation(self):
-        f = md.File()
+        r = md.SubmittedAlignedReads()
         with self.assertRaises(ValidationError):
-            f.file_size = "0"
-        f.file_size = 0
+            r.file_size = "0"
+        r.file_size = 0
 
-        f = md.File()
+        d = md.Diagnosis()
         with self.assertRaises(ValidationError):
-            f.file_name = 0
-        f.file_name = "0"
+            d.morphology = 0
+        d.morphology = "0"
 
         s = md.Sample()
         with self.assertRaises(ValidationError):

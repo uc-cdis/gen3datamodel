@@ -112,7 +112,7 @@ def types_from_str(types):
             "number": [float, int],
             "integer": [int],
             "float": [float],
-            "null": [str],
+            "null": [type(None)],
             "boolean": [bool],
             "array": [list],
             None: [str],

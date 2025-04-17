@@ -42,11 +42,15 @@ class GDCLinksValidator(object):
         num_of_edges = 0
 
         for group in schema["subgroup"]:
-            if "subgroup" in schema["subgroup"]:
+            if "subgroup" in group:
                 # nested subgroup
                 result = self.validate_edge_group(group, entity)
-            if "name" in group:
+            elif "name" in group:
                 result = self.validate_edge(group, entity)
+            else:
+                raise Exception(
+                    f"This link subgroup should include one of 'name' or 'subgroup', but both are missing: {group}"
+                )
 
             if result["length"] > 0:
                 submitted_links.append(result)
@@ -70,6 +74,7 @@ class GDCLinksValidator(object):
             )
 
         result = {"length": num_of_edges, "name": ", ".join(schema_links)}
+        return result
 
     def validate_edge(self, link_sub_schema, entity):
         association = link_sub_schema["name"]

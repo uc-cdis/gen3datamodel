@@ -1,7 +1,7 @@
 [tool.poetry]
 name = "gen3datamodel"
 homepage = "https://gen3.org/"
-version = "3.2.3"
+version = "3.2.4"
 description = ""
 authors = ["CTDS UChicago <cdis@uchicago.edu>"]
 license = "Apache-2.0"
@@ -10,7 +10,7 @@ repository = "https://github.com/uc-cdis/gen3datamodel"
 [tool.poetry.dependencies]
 python = "^3.9"
 cdislogging = "*"
-dictionaryutils = ">=3.4.11"
+dictionaryutils = ">=3.5"
 jsonschema = "*"
 pyrsistent = "==0.15.4"
 pytz = "*"
@@ -19,7 +19,7 @@ psycopg2-binary = "~=2.8.2"
 sqlalchemy = "==1.3.3"
 strict-rfc3339 = "==0.7"
 
-[tool.poetry.dev-dependencies]
+[tool.poetry.group.dev.dependencies]
 pytest = ">=3.2.3"
 pytest-cov = "^2.5.1"
 mock = "*"
