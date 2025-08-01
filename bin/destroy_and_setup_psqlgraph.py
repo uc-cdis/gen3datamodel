@@ -13,7 +13,7 @@ def try_drop_test_data(
     print("Dropping old test data")
 
     engine = create_engine(
-        "postgres://{user}:{pwd}@{host}/postgres".format(
+        "postgresql://{user}:{pwd}@{host}/postgres".format(
             user=root_user, pwd="postgres", host=host
         )
     )
@@ -48,7 +48,7 @@ def setup_database(
         try_drop_test_data(user, password, database)
 
     engine = create_engine(
-        "postgres://{user}:{pwd}@{host}/postgres".format(
+        "postgresql://{user}:{pwd}@{host}/postgres".format(
             user=root_user, pwd="postgres", host=host
         )
     )
@@ -87,7 +87,7 @@ def create_tables(host, user, password, database):
     print("Creating tables in test database")
 
     engine = create_engine(
-        "postgres://{user}:{pwd}@{host}/{db}".format(
+        "postgresql://{user}:{pwd}@{host}/{db}".format(
             user=user, host=host, pwd=password, db=database
         )
     )
