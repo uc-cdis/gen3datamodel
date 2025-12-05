@@ -1,7 +1,7 @@
 [tool.poetry]
 name = "gen3datamodel"
 homepage = "https://gen3.org/"
-version = "3.2.5"
+version = "3.2.6"
 description = ""
 authors = ["CTDS UChicago <cdis@uchicago.edu>"]
 license = "Apache-2.0"
@@ -16,8 +16,8 @@ pytz = "*"
 # psqlgraph = ">=3.0.2,<4"
 psqlgraph =  { git = "https://github.com/uc-cdis/psqlgraph.git", branch = "chore/update-psycopg2-binary" }
 psycopg2-binary = ">=2.8.2,<4"
+rfc3339-validator = "<1"
 sqlalchemy = ">=1.3.3,<2"
-strict-rfc3339 = "==0.7"
 
 [tool.poetry.group.dev.dependencies]
 pytest = ">=3.2.3"
