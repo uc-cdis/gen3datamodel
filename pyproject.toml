@@ -14,9 +14,9 @@ dictionaryutils = ">=3.5"
 jsonschema = "<5"
 pytz = "*"
 psqlgraph = ">=3.0.2"
-psycopg2-binary = ">=2.8.2,<4"
 rfc3339-validator = "<1"
 sqlalchemy = "<3"
+graphviz = "*"
 
 [tool.poetry.group.dev.dependencies]
 pytest = "*"
@@ -34,4 +34,12 @@ minversion = "6.0"
 addopts = "-vv"
 testpaths = [
     "tests",
+]
+
+[tool.deptry.per_rule_ignores]
+DEP001 = [
+    "IPython"  # optional
+]
+DEP002 = [
+    "rfc3339-validator",  # needed to validate the `date-time` format
 ]

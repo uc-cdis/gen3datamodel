@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-gen3datamodel.test.conftest
+gen3datamodel.tests.conftest
 ----------------------------------
 
 Test GDC specific index creation.

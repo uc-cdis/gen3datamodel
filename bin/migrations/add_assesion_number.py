@@ -1,4 +1,4 @@
-import mappings
+from . import mappings
 import argparse
 from psqlgraph import PsqlGraphDriver
 from gen3datamodel.models import *
