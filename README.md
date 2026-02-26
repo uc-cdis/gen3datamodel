@@ -85,4 +85,4 @@ bash test/ci_commands_script.sh
 
 # Contributing
 
-Read how to contribute [here](https://docs.gen3.org/docs/Contributor%20Guidelines/)
+Read how to contribute [here](https://docs.gen3.org/gen3-resources/developer-guide/contribute/)
